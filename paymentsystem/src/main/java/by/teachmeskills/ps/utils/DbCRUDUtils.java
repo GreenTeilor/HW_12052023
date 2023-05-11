@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class DbCRUDUtils {
     private final static String ADD_QUERY = "INSERT INTO merchants (id, name, created_at) Values (?, ?, ?)";
@@ -27,12 +28,24 @@ public class DbCRUDUtils {
     private final static String DELETE_MERCHANT_QUERY = "DELETE FROM merchants WHERE id = ?";
     private final static String GET_MERCHANT_ACCOUNTS_QUERY = "SELECT * FROM bank_accounts WHERE merchant_id = ? ORDER BY status ASC, created_at ASC";
     private final static String GET_MERCHANT_BY_ID_QUERY = "SELECT * FROM merchants WHERE id = ?";
+    private static Connection connection;
 
     private DbCRUDUtils() {
 
     }
 
-    public static void saveMerchantDB(Connection connection, String name) {
+    public static void setConnection(Supplier<Connection> connector) throws SQLException{
+        connection = connector.get();
+        if (connection == null) {
+            throw new SQLException("Connection is not established");
+        }
+    }
+
+    public static void closeConnection() throws SQLException {
+        connection.close();
+    }
+
+    public static void saveMerchantDB(String name) {
         try (PreparedStatement statement = connection.prepareStatement(ADD_QUERY)) {
             statement.setString(1, String.valueOf(UUID.randomUUID()));
             statement.setString(2, name);
@@ -43,7 +56,7 @@ public class DbCRUDUtils {
         }
     }
 
-    public static void saveBankAccountDB(Connection connection, BankAccount bankAccount) {
+    public static void saveBankAccountDB(BankAccount bankAccount) {
         Function<String, Boolean> isPresent = query -> {
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, bankAccount.getMerchantId());
@@ -83,7 +96,7 @@ public class DbCRUDUtils {
 
     }
 
-    public static List<Merchant> readMerchantsDB(Connection connection) {
+    public static List<Merchant> readMerchantsDB() {
         List<Merchant> merchants = new ArrayList<>();
         try (Statement statement = connection.createStatement()) {
             ResultSet set = statement.executeQuery(GET_MERCHANTS_QUERY);
@@ -97,7 +110,7 @@ public class DbCRUDUtils {
         return merchants;
     }
 
-    public static void deleteBankAccountDB(Connection connection, BankAccount account) {
+    public static void deleteBankAccountDB(BankAccount account) {
         try (PreparedStatement statement = connection.prepareStatement(UPDATE_STATUS_QUERY)) {
             statement.setString(1, "deleted");
             statement.setString(2, account.getMerchantId());
@@ -108,7 +121,7 @@ public class DbCRUDUtils {
         }
     }
 
-    public static void deleteMerchantBankAccountsDB(Connection connection, Merchant merchant) {
+    public static void deleteMerchantBankAccountsDB(Merchant merchant) {
         try (PreparedStatement statement = connection.prepareStatement(DELETE_ACCOUNTS_QUERY)) {
             statement.setString(1, merchant.getId());
             statement.execute();
@@ -117,7 +130,7 @@ public class DbCRUDUtils {
         }
     }
 
-    public static void deleteMerchantDB(Connection connection, Merchant merchant) {
+    public static void deleteMerchantDB(Merchant merchant) {
         try (PreparedStatement statement = connection.prepareStatement(DELETE_MERCHANT_QUERY)) {
             statement.setString(1, merchant.getId());
             statement.execute();
@@ -126,7 +139,7 @@ public class DbCRUDUtils {
         }
     }
 
-    public static void updateBankAccountDB(Connection connection, BankAccount bankAccount, String newBankAccountNumber) {
+    public static void updateBankAccountDB(BankAccount bankAccount, String newBankAccountNumber) {
         Function<String, Boolean> isPresent = newNumber -> {
             try (PreparedStatement statement = connection.prepareStatement(SEARCH_ACCOUNT_QUERY)) {
                 statement.setString(1, bankAccount.getMerchantId());
@@ -154,7 +167,7 @@ public class DbCRUDUtils {
         }
     }
 
-    public static List<BankAccount> readMerchantBankAccounts(Connection connection, Merchant merchant) {
+    public static List<BankAccount> readMerchantBankAccounts(Merchant merchant) {
         List<BankAccount> accounts = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(GET_MERCHANT_ACCOUNTS_QUERY)) {
             statement.setString(1, merchant.getId());
@@ -170,7 +183,7 @@ public class DbCRUDUtils {
         return accounts;
     }
 
-    public static Merchant getMerchantByIdDB(Connection connection, String id) {
+    public static Merchant getMerchantByIdDB(String id) {
         Merchant merchant = null;
         try (PreparedStatement statement = connection.prepareStatement(GET_MERCHANT_BY_ID_QUERY)) {
             statement.setString(1, id);
@@ -185,7 +198,7 @@ public class DbCRUDUtils {
         return merchant;
     }
 
-    public static BankAccount getBankAccountDB(Connection connection, String merchant_id, String account_number) {
+    public static BankAccount getBankAccountDB(String merchant_id, String account_number) {
         BankAccount account = null;
         try (PreparedStatement statement = connection.prepareStatement(SEARCH_ACCOUNT_QUERY)) {
             statement.setString(1, merchant_id);

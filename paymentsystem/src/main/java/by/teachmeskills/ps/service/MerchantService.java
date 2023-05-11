@@ -11,19 +11,15 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class MerchantService {
-    private Connection connection;
 
     public MerchantService(Supplier<Connection> connector) throws SQLException {
-        connection = connector.get();
-        if (connection == null) {
-            throw new SQLException("Connection is not established");
-        }
+        DbCRUDUtils.setConnection(connector);
     }
 
     public BankAccount addBankAccount(Merchant merchant, BankAccount bankAccount) {
         if (merchant != null && bankAccount.getAccountNumber().length() == 8 && bankAccount.getAccountNumber().matches("\\d{8}")) {
             try {
-                DbCRUDUtils.saveBankAccountDB(connection, bankAccount);
+                DbCRUDUtils.saveBankAccountDB(bankAccount);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
@@ -35,7 +31,7 @@ public class MerchantService {
 
     public List<BankAccount> getMerchantBankAccounts(Merchant merchant) {
         if (merchant != null) {
-            return DbCRUDUtils.readMerchantBankAccounts(connection, merchant);
+            return DbCRUDUtils.readMerchantBankAccounts(merchant);
         } else {
             System.out.println("There's no such merchant!");
             return new ArrayList<>();
@@ -44,7 +40,7 @@ public class MerchantService {
 
     public BankAccount updateBankAccount(BankAccount bankAccount, String newBankAccountNumber) {
         if (bankAccount != null) {
-            DbCRUDUtils.updateBankAccountDB(connection, bankAccount, newBankAccountNumber);
+            DbCRUDUtils.updateBankAccountDB(bankAccount, newBankAccountNumber);
         } else {
             System.out.println("There is no such account!");
         }
@@ -53,40 +49,40 @@ public class MerchantService {
 
     public void deleteBankAccount(BankAccount bankAccount) {
         if (bankAccount != null) {
-            DbCRUDUtils.deleteBankAccountDB(connection, bankAccount);
+            DbCRUDUtils.deleteBankAccountDB(bankAccount);
         } else {
             System.out.println("There is no such account!");
         }
     }
 
     public void createMerchant(String name) {
-        DbCRUDUtils.saveMerchantDB(connection, name);
+        DbCRUDUtils.saveMerchantDB(name);
     }
 
     public List<Merchant> getMerchants() {
-        return DbCRUDUtils.readMerchantsDB(connection);
+        return DbCRUDUtils.readMerchantsDB();
     }
 
     public Merchant getMerchantById(String id) {
-        return DbCRUDUtils.getMerchantByIdDB(connection, id);
+        return DbCRUDUtils.getMerchantByIdDB(id);
     }
 
     public void deleteMerchant(Merchant merchant) {
         if (merchant != null) {
-            DbCRUDUtils.deleteMerchantDB(connection, merchant);
-            DbCRUDUtils.deleteMerchantBankAccountsDB(connection, merchant);
+            DbCRUDUtils.deleteMerchantDB(merchant);
+            DbCRUDUtils.deleteMerchantBankAccountsDB(merchant);
         } else {
             System.out.println("There is no such merchant!");
         }
     }
 
     public BankAccount getAccount(String merchant_id, String account_number) {
-        return DbCRUDUtils.getBankAccountDB(connection, merchant_id, account_number);
+        return DbCRUDUtils.getBankAccountDB(merchant_id, account_number);
     }
 
     public void finishWork() {
         try {
-            connection.close();
+            DbCRUDUtils.closeConnection();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
