@@ -24,10 +24,10 @@ public class Servlet extends HttpServlet {
         String operand1 = request.getParameter("operand1");
         String operand2 = request.getParameter("operand2");
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
-        String[] operations = request.getParameterValues("operation");
+        String operation = request.getParameterValues("operation")[0];
 
-        if (operations != null) {
-            switch (operations[0]) {
+        if (operation != null) {
+            switch (operation) {
                 case "sumOperation" ->
                         request.setAttribute("result", CalculatorUtils.sum(Integer.parseInt(operand1), Integer.parseInt(operand2)));
                 case "subOperation" ->
