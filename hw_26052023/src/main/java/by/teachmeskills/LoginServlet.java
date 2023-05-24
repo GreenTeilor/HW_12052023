@@ -2,10 +2,8 @@ package by.teachmeskills;
 
 import by.teachmeskills.exceptions.BadConnectionException;
 import by.teachmeskills.utils.DBCrudUtils;
-import by.teachmeskills.utils.DBUtils;
 import by.teachmeskills.utils.HashUtils;
 import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,21 +11,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 public class LoginServlet extends HttpServlet {
-
-    //To establish connection with DB once instead of doing that each time we make POST-request
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        try {
-            DBCrudUtils.setConnection(DBUtils::getConnection);
-        } catch (BadConnectionException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!((boolean) request.getSession().getAttribute("loggedIn"))) {
@@ -59,15 +44,5 @@ public class LoginServlet extends HttpServlet {
         } catch (BadConnectionException e) {
             System.out.println("Can't login due to bad connection");
         }
-    }
-
-    @Override
-    public void destroy() {
-        try {
-            DBCrudUtils.closeConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        super.destroy();
     }
 }

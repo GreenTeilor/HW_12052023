@@ -14,4 +14,26 @@
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
+    <filter>
+        <filter-name>encoding-filter</filter-name>
+        <filter-class>by.teachmeskills.MainFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>encoding-filter</filter-name>
+        <url-pattern>/home</url-pattern>
+    </filter-mapping>
+
+    <context-param>
+        <param-name>dbUsername</param-name>
+        <param-value>root</param-value>
+    </context-param>
+    <context-param>
+        <param-name>dbPassword</param-name>
+        <param-value>123</param-value>
+    </context-param>
+    <context-param>
+        <param-name>dbUrl</param-name>
+        <param-value>jdbc:mysql://localhost:3306/users_db</param-value>
+    </context-param>
+
 </web-app>
