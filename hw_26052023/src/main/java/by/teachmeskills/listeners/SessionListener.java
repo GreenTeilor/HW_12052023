@@ -10,6 +10,6 @@ public class SessionListener implements HttpSessionListener {
     @Override
     public void sessionCreated(HttpSessionEvent session) {
         HttpSession httpSession = session.getSession();
-        httpSession.setAttribute("loggedIn", false);
+        httpSession.setAttribute("loggedIn", null);
     }
 }
