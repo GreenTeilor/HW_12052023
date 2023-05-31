@@ -9,15 +9,17 @@ import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 @WebListener
-public class ContextListener implements ServletContextListener {
+public class AppContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
         ServletContext ctx = event.getServletContext();
         DBUtils.initialize(ctx.getInitParameter("dbUrl"), ctx.getInitParameter("dbUsername"), ctx.getInitParameter("dbPassword"));
         try {
             DBCrudUtils.setConnection(DBUtils::getConnection);
+            ctx.setAttribute("categories", DBCrudUtils.getCategories());
         } catch (BadConnectionException e) {
             System.out.println(e.getMessage());
         }

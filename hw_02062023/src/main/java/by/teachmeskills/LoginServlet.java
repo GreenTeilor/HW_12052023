@@ -1,6 +1,7 @@
 package by.teachmeskills;
 
 import by.teachmeskills.exceptions.BadConnectionException;
+import by.teachmeskills.types.User;
 import by.teachmeskills.utils.DBCrudUtils;
 import by.teachmeskills.utils.HashUtils;
 import jakarta.servlet.RequestDispatcher;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -27,10 +29,10 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        User user = new User(request.getParameter("login"), HashUtils.getHash(request.getParameter("password")));
         RequestDispatcher requestDispatcher;
         try {
-            if (DBCrudUtils.isUserPresent(user)) {
+            User user = DBCrudUtils.getUser(request.getParameter("name"), request.getParameter("lastName"), request.getParameter("email"), HashUtils.getHash(request.getParameter("password")));
+            if (user != null) {
                 HttpSession httpSession = request.getSession();
                 httpSession.setAttribute("loggedIn", user);
                 response.sendRedirect(request.getContextPath() + "/home");
