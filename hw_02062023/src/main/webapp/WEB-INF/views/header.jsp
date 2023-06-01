@@ -3,7 +3,7 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="home">
         <img src="assets/books.png" width="30" height="30"
              class="d-inline-block align-top" alt="">
         Книжечки
@@ -20,6 +20,9 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="about">Об авторе</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Профиль</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Корзина</a>

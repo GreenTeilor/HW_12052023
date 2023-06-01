@@ -35,6 +35,7 @@
                 <div class="card-body py-5 px-md-5">
                     <form method="POST" action="login">
 
+                        <%-- TO USE IN REGISTRATION FORM
                         <!-- Name input -->
                         <div class="form-outline mb-4">
                             <input type="text" name="name" id="name" class="form-control"/>
@@ -46,6 +47,7 @@
                             <input type="text" name="lastName" id="lastName" class="form-control"/>
                             <label class="form-label" for="lastName">Фамилия</label>
                         </div>
+                        --%>
 
                         <!-- Email input -->
                         <div class="form-outline mb-4">

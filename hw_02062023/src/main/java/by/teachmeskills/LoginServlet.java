@@ -31,7 +31,7 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         RequestDispatcher requestDispatcher;
         try {
-            User user = DBCrudUtils.getUser(request.getParameter("name"), request.getParameter("lastName"), request.getParameter("email"), HashUtils.getHash(request.getParameter("password")));
+            User user = DBCrudUtils.getUser(request.getParameter("email"), HashUtils.getHash(request.getParameter("password")));
             if (user != null) {
                 HttpSession httpSession = request.getSession();
                 httpSession.setAttribute("loggedIn", user);
