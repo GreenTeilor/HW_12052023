@@ -19,7 +19,7 @@ public class AppContextListener implements ServletContextListener {
         DBUtils.initialize(ctx.getInitParameter("dbUrl"), ctx.getInitParameter("dbUsername"), ctx.getInitParameter("dbPassword"));
         try {
             DBCrudUtils.setConnection(DBUtils::getConnection);
-            ctx.setAttribute("categories", DBCrudUtils.getCategories());
+            //ctx.setAttribute("categories", DBCrudUtils.getCategories());
         } catch (BadConnectionException e) {
             System.out.println(e.getMessage());
         }

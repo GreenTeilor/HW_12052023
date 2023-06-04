@@ -17,7 +17,7 @@ import java.io.IOException;
 public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getSession().getAttribute("loggedIn") == null) {
+        if (request.getSession().getAttribute("user") == null) {
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/views/login.jsp");
             requestDispatcher.forward(request, response);
         } else {
@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
         try {
             if (DBCrudUtils.isUserPresent(user)) {
                 HttpSession httpSession = request.getSession();
-                httpSession.setAttribute("loggedIn", user);
+                httpSession.setAttribute("user", user);
                 requestDispatcher = request.getRequestDispatcher("/WEB-INF/views/page.jsp");
                 requestDispatcher.forward(request, response);
             } else {

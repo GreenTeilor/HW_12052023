@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getSession().getAttribute("loggedIn") == null) {
+        if (request.getSession().getAttribute("user") == null) {
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/views/login.jsp");
             requestDispatcher.forward(request, response);
         } else {
@@ -34,7 +34,7 @@ public class LoginServlet extends HttpServlet {
             User user = DBCrudUtils.getUser(request.getParameter("email"), HashUtils.getHash(request.getParameter("password")));
             if (user != null) {
                 HttpSession httpSession = request.getSession();
-                httpSession.setAttribute("loggedIn", user);
+                httpSession.setAttribute("user", user);
                 response.sendRedirect(request.getContextPath() + "/home");
             } else {
                 requestDispatcher = request.getRequestDispatcher("/WEB-INF/views/login.jsp");

@@ -11,7 +11,7 @@
 <body>
 <jsp:include page="header.jsp"/>
 <div class="row">
-    <c:forEach items="${productsInCategory}" var="product">
+    <c:forEach items="${categoryProducts}" var="product">
         <div class="col d-flex justify-content-center">
             <div class="card" style="width: 22rem; margin: 20px; background-color: lightgrey">
                 <a href="#"><img src="${product.imagePath()}" class="card-img-top" style="height: 25rem;" alt="..."></a>

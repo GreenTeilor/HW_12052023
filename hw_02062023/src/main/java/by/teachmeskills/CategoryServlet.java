@@ -18,7 +18,7 @@ public class CategoryServlet extends HttpServlet {
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/views/category.jsp");
         try {
             request.setAttribute("categoryName", request.getParameter("name"));
-            request.setAttribute("productsInCategory", DBCrudUtils.getProductsInCategory(request.getParameter("name")));
+            request.setAttribute("categoryProducts", DBCrudUtils.getCategoryProducts(request.getParameter("name")));
         } catch (BadConnectionException e) {
             System.out.println(e.getMessage());
         }

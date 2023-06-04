@@ -1,8 +1,10 @@
 package by.teachmeskills;
 
 
+import by.teachmeskills.exceptions.BadConnectionException;
 import by.teachmeskills.types.Category;
 import by.teachmeskills.types.User;
+import by.teachmeskills.utils.DBCrudUtils;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -18,12 +20,16 @@ import java.io.IOException;
 public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getSession().getAttribute("loggedIn") == null) {
+        if (request.getSession().getAttribute("user") == null) {
             response.sendRedirect(request.getContextPath() + "/login");
         } else {
             HttpSession httpSession = request.getSession();
-            request.setAttribute("categories", getServletContext().getAttribute("categories"));
-            User user = (User)httpSession.getAttribute("loggedIn");
+            try {
+                request.setAttribute("categories", DBCrudUtils.getCategories());
+            } catch (BadConnectionException e) {
+                System.out.println(e.getMessage());
+            }
+            User user = (User)httpSession.getAttribute("user");
             request.setAttribute("name", user.name());
             request.setAttribute("lastName", user.lastName());
             request.setAttribute("balance", user.balance());
