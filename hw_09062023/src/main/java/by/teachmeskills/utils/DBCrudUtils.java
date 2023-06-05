@@ -18,6 +18,7 @@ public class DBCrudUtils {
     private final static String SEARCH_QUERY = "SELECT * FROM users WHERE email = ? and password = ?";
     private final static String GET_CATEGORIES_QUERY = "SELECT * FROM categories";
     private final static String GET_CATEGORY_PRODUCTS_QUERY = "SELECT * FROM products WHERE category = ?";
+    private final static String GET_PRODUCT_BY_ID = "SELECT * FROM products WHERE id = ?";
     private static Connection connection;
 
     private DBCrudUtils() {
@@ -78,6 +79,23 @@ public class DBCrudUtils {
             }
             set.close();
             return result;
+        } catch (SQLException e) {
+            throw new BadConnectionException("Unable to execute query GET_PRODUCTS_IN_CATEGORY_QUERY");
+        }
+    }
+
+    public static Product getProduct(int id) throws BadConnectionException {
+        Product product = null;
+        try (PreparedStatement statement = connection.prepareStatement(GET_PRODUCT_BY_ID)) {
+            statement.setInt(1, id);
+            ResultSet set = statement.executeQuery();
+            while (set.next()) {
+                product = new Product(set.getInt("id"), set.getString("name"),
+                        set.getString("description"), set.getString("imagePath"), set.getString("category"),
+                        set.getBigDecimal("price"));
+            }
+            set.close();
+            return product;
         } catch (SQLException e) {
             throw new BadConnectionException("Unable to execute query GET_PRODUCTS_IN_CATEGORY_QUERY");
         }
