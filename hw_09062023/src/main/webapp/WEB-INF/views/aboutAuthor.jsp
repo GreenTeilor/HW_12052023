@@ -4,9 +4,6 @@
     <title>About author</title>
     <jsp:include page="dependencies.jsp"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-
-    </style>
 </head>
 <body>
 <jsp:include page="header.jsp"/>
