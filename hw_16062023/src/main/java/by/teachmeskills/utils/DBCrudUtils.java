@@ -19,6 +19,7 @@ import java.util.function.Supplier;
 
 public class DBCrudUtils {
     private final static String SEARCH_USER_QUERY = "SELECT * FROM users WHERE email = ? and password = ?";
+    private final static String IS_USER_PRESENT_QUERY = "SELECT * FROM users WHERE email = ?";
     private final static String ADD_USER_QUERY = "INSERT INTO users (id, name, lastName, email, birthDate, balance, password) VALUES (?, ?, ?, ?, ?, 0.0, ?)";
     private final static String GET_CATEGORIES_QUERY = "SELECT * FROM categories";
     private final static String GET_CATEGORY_PRODUCTS_QUERY = "SELECT * FROM products WHERE category = ?";
@@ -57,10 +58,19 @@ public class DBCrudUtils {
         }
     }
 
+    public static boolean isUserPresent(String email) throws BadConnectionException {
+        try (PreparedStatement statement = connection.prepareStatement(IS_USER_PRESENT_QUERY)) {
+            statement.setString(1, email);
+            ResultSet set = statement.executeQuery();
+            return set.next();
+        } catch (SQLException e) {
+            throw new BadConnectionException("Unable to execute query IS_USER_PRESENT_QUERY");
+        }
+    }
+
     public static void addUser(User user) throws BadConnectionException, UserPresentException {
-        boolean isUserPresent = getUser(user.email(), user.password()) != null;
         try (PreparedStatement statement = connection.prepareStatement(ADD_USER_QUERY)) {
-            if (isUserPresent) {
+            if (isUserPresent(user.email())) {
                 throw new UserPresentException("Такой пользователь уже существует");
             }
             statement.setString(1, String.valueOf(UUID.randomUUID()));
