@@ -2,24 +2,18 @@ package by.teachmeskills.listeners;
 
 import by.teachmeskills.exceptions.BadConnectionException;
 import by.teachmeskills.utils.DBCrudUtils;
-import by.teachmeskills.utils.DBUtils;
-import jakarta.servlet.ServletContext;
+import by.teachmeskills.ConnectionPool;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 @WebListener
 public class AppContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
-        ServletContext ctx = event.getServletContext();
-        DBUtils.initialize(ctx.getInitParameter("dbUrl"), ctx.getInitParameter("dbUsername"), ctx.getInitParameter("dbPassword"));
+        ConnectionPool pool = ConnectionPool.getInstance();
         try {
-            DBCrudUtils.setConnection(DBUtils::getConnection);
-            //ctx.setAttribute("categories", DBCrudUtils.getCategories());
+            DBCrudUtils.setConnection(pool::getConnection);
         } catch (BadConnectionException e) {
             System.out.println(e.getMessage());
         }
@@ -27,10 +21,7 @@ public class AppContextListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent event) {
-        try {
-            DBCrudUtils.closeConnection();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+        ConnectionPool.getInstance().returnConnection(DBCrudUtils.getConnection());
+        ConnectionPool.getInstance().closeConnections();
     }
 }
