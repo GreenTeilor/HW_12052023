@@ -1,7 +1,7 @@
 package by.teachmeskills;
 
 import by.teachmeskills.exceptions.BadConnectionException;
-import by.teachmeskills.exceptions.UserPresentException;
+import by.teachmeskills.exceptions.UserAlreadyExistsException;
 import by.teachmeskills.types.User;
 import by.teachmeskills.utils.DBCrudUtils;
 import by.teachmeskills.utils.ValidatorUtils;
@@ -39,7 +39,7 @@ public class RegisterServlet extends HttpServlet {
                 request.setAttribute("color", "green");
             } catch (BadConnectionException e) {
                 System.out.println(e.getMessage());
-            } catch (UserPresentException e) {
+            } catch (UserAlreadyExistsException e) {
                 request.setAttribute("status", e.getMessage());
                 request.setAttribute("color", "red");
             }

@@ -1,6 +1,6 @@
 package by.teachmeskills.utils;
 
-import by.teachmeskills.exceptions.UserPresentException;
+import by.teachmeskills.exceptions.UserAlreadyExistsException;
 import by.teachmeskills.types.Category;
 import by.teachmeskills.types.Product;
 import by.teachmeskills.types.User;
@@ -19,7 +19,7 @@ import java.util.function.Supplier;
 
 public class DBCrudUtils {
     private final static String SEARCH_USER_QUERY = "SELECT * FROM users WHERE email = ? and password = ?";
-    private final static String IS_USER_PRESENT_QUERY = "SELECT * FROM users WHERE email = ?";
+    private final static String GET_USER_BY_EMAIL = "SELECT * FROM users WHERE email = ?";
     private final static String ADD_USER_QUERY = "INSERT INTO users (id, name, lastName, email, birthDate, balance, password) VALUES (?, ?, ?, ?, ?, 0.0, ?)";
     private final static String GET_CATEGORIES_QUERY = "SELECT * FROM categories";
     private final static String GET_CATEGORY_PRODUCTS_QUERY = "SELECT * FROM products WHERE category = ?";
@@ -59,7 +59,7 @@ public class DBCrudUtils {
     }
 
     public static boolean isUserPresent(String email) throws BadConnectionException {
-        try (PreparedStatement statement = connection.prepareStatement(IS_USER_PRESENT_QUERY)) {
+        try (PreparedStatement statement = connection.prepareStatement(GET_USER_BY_EMAIL)) {
             statement.setString(1, email);
             ResultSet set = statement.executeQuery();
             return set.next();
@@ -68,10 +68,10 @@ public class DBCrudUtils {
         }
     }
 
-    public static void addUser(User user) throws BadConnectionException, UserPresentException {
+    public static void addUser(User user) throws BadConnectionException, UserAlreadyExistsException {
         try (PreparedStatement statement = connection.prepareStatement(ADD_USER_QUERY)) {
             if (isUserPresent(user.email())) {
-                throw new UserPresentException("Такой пользователь уже существует");
+                throw new UserAlreadyExistsException("Такой пользователь уже существует");
             }
             statement.setString(1, String.valueOf(UUID.randomUUID()));
             statement.setString(2, user.name());

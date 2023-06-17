@@ -3,11 +3,11 @@ package by.teachmeskills.utils;
 import java.time.LocalDate;
 
 public class ValidatorUtils {
-    private static final String prefix = "Неккоректно: ";
+    private static final String PREFIX = "Неккоректно: ";
 
     public enum Status {
-        INVALID_NAME(prefix + "имя"), INVALID_LASTNAME(prefix + "фамилия"), INVALID_EMAIL(prefix + "email"),
-        INVALID_BIRTHDATE(prefix + "дата рождения"), INVALID_PASSWORD(prefix + "пароль"), INVALID_SEVERAL(prefix + "2 и более полей"), VALID("Успешно");
+        INVALID_NAME(PREFIX + "имя"), INVALID_LASTNAME(PREFIX + "фамилия"), INVALID_EMAIL(PREFIX + "email"),
+        INVALID_BIRTHDATE(PREFIX + "дата рождения"), INVALID_PASSWORD(PREFIX + "пароль"), INVALID_SEVERAL(PREFIX + "2 и более полей"), VALID("Успешно");
         private final String status;
 
         Status(String status) {
