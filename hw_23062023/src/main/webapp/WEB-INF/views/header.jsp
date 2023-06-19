@@ -16,10 +16,10 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="home">Главная</a>
+            <a class="nav-link" href="shop?command=home_page">Главная</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="about">Об авторе</a>
+            <a class="nav-link" href="shop?command=about_page">Об авторе</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Профиль</a>

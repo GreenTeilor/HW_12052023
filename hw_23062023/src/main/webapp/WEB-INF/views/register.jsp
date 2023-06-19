@@ -33,7 +33,7 @@
         <button type="submit" class="btn mt-3">Зарегистрироваться</button>
     </form>
     <div class="text-center fs-6">
-        <span>Есть аккаунт?</span> <a href="login">Войти</a>
+        <span>Есть аккаунт?</span> <a href="shop">Войти</a>
     </div>
     <div class="text-center fs-6">
         <span style="color:${color};" class="status">${status}</span>
