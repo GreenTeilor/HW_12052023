@@ -11,7 +11,7 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
-<c:set var = "product" value = "${product}"/>
+<c:set var="product" value="${product}"/>
 <div class="container">
     <div class="card">
         <div class="card-body">
@@ -30,7 +30,9 @@
                         <fmt:formatNumber value="${product.price()}"
                                           type="currency"/>
                     </h2>
-                    <button class="btn btn-primary btn-rounded">Купить</button>
+
+                        <a href="shop?command=cart_page&type=addProduct&id=${product.id()}" class="btn btn-primary btn-rounded">Купить</a>
+
                     <h3 class="box-title mt-5">Почему мы?</h3>
                     <ul class="list-unstyled">
                         <li><i class="fa fa-check text-success"></i>Работаем 20 лет</li>

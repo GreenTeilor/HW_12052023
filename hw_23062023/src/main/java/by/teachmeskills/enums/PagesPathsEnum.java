@@ -6,7 +6,8 @@ public enum PagesPathsEnum {
     REGISTER_PAGE("/WEB-INF/views/register.jsp"),
     CATEGORY_PAGE("/WEB-INF/views/category.jsp"),
     ABOUT_PAGE("/WEB-INF/views/aboutAuthor.jsp"),
-    PRODUCT_PAGE("/WEB-INF/views/product.jsp");
+    PRODUCT_PAGE("/WEB-INF/views/product.jsp"),
+    CART_PAGE("/WEB-INF/views/cart.jsp");
 
     private final String PATH;
 

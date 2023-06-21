@@ -1,9 +1,11 @@
+<%@ page import="by.teachmeskills.enums.SessionAttributesEnum" %>
+<%@ page import="by.teachmeskills.types.Cart" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <header>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
     <div class="container-fluid">
-      <a class="navbar-brand" href="home">
+      <a class="navbar-brand" href="shop?command=home_page">
         <img src="assets/books.png" width="30" height="30"
              class="d-inline-block align-top" alt="">
         Книжечки
@@ -16,16 +18,20 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="shop?command=home_page">Главная</a>
+            <a class="nav-link" href="shop?command=home_page">&#127968 Главная</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="shop?command=about_page">Об авторе</a>
+            <a class="nav-link" href="shop?command=about_page">&#10067 Об авторе</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Профиль</a>
+            <a class="nav-link" href="#">&#128188 Профиль</a>
           </li>
+          <%
+            Cart cart = (Cart)request.getSession().getAttribute(SessionAttributesEnum.CART.getValue());
+            String productsInCart = (cart != null && cart.size() != 0) ? String.valueOf(cart.size()) : "";
+          %>
           <li class="nav-item">
-            <a class="nav-link" href="#">Корзина</a>
+            <a class="nav-link" href="shop?command=cart_page&type=show">&#128465 Корзина<sup style="color: red; font-weight: bold; font-size: 1rem;"><%=productsInCart%></sup></a>
           </li>
         </ul>
       </div>

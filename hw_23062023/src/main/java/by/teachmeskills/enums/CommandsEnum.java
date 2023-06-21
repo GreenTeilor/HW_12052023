@@ -6,7 +6,8 @@ public enum CommandsEnum {
     REGISTER_PAGE_COMMAND("register_page"),
     ABOUT_PAGE_COMMAND("about_page"),
     CATEGORY_PAGE_COMMAND("category_page"),
-    PRODUCT_PAGE_COMMAND("product_page");
+    PRODUCT_PAGE_COMMAND("product_page"),
+    CART_PAGE_COMMAND("cart_page");
 
 
     private final String COMMAND;

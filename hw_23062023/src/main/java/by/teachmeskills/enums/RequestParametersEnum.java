@@ -7,6 +7,7 @@ public enum RequestParametersEnum {
     EMAIL("email"),
     PASSWORD("password"),
     BIRTH_DATE("birthDate"),
+    TYPE("type"),
 
     COMMAND("command");
 

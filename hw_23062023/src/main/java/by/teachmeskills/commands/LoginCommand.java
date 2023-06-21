@@ -6,6 +6,7 @@ import by.teachmeskills.enums.RequestParametersEnum;
 import by.teachmeskills.enums.SessionAttributesEnum;
 import by.teachmeskills.exceptions.BadConnectionException;
 import by.teachmeskills.exceptions.CommandException;
+import by.teachmeskills.types.Cart;
 import by.teachmeskills.types.Category;
 import by.teachmeskills.types.User;
 import by.teachmeskills.utils.DBCrudUtils;
@@ -33,6 +34,7 @@ public class LoginCommand implements BaseCommand{
 
             try {
                 session.setAttribute(SessionAttributesEnum.USER.getValue(), DBCrudUtils.getUser(email, password));
+                session.setAttribute(SessionAttributesEnum.CART.getValue(), new Cart());
             } catch (BadConnectionException e) {
                 System.out.println(e.getMessage());
             }

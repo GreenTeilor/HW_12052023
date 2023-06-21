@@ -1,5 +1,6 @@
 package by.teachmeskills.listeners;
 
+import by.teachmeskills.enums.SessionAttributesEnum;
 import jakarta.servlet.annotation.WebListener;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpSessionEvent;
@@ -10,6 +11,7 @@ public class SessionListener implements HttpSessionListener {
     @Override
     public void sessionCreated(HttpSessionEvent session) {
         HttpSession httpSession = session.getSession();
-        httpSession.setAttribute("user", null);
+        httpSession.setAttribute(SessionAttributesEnum.USER.getValue(), null);
+        httpSession.setAttribute(SessionAttributesEnum.CART.getValue(), null);
     }
 }

@@ -3,7 +3,8 @@ package by.teachmeskills.enums;
 public enum RequestAttributesEnum {
     CATEGORIES("categories"), STATUS("status"), NAME("name"),
     LAST_NAME("lastName"), BALANCE("balance"), CATEGORY_NAME("categoryName"),
-    CATEGORY_PRODUCTS("categoryProducts"), PRODUCT_NAME("productName"), PRODUCT("product");
+    CATEGORY_PRODUCTS("categoryProducts"), PRODUCT_NAME("productName"), PRODUCT("product"),
+    CART("cart");
 
     private final String VALUE;
 
