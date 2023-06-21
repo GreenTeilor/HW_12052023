@@ -27,5 +27,9 @@
         </div>
     </c:forEach>
 </div>
+<p style="text-align: center">
+    <a href="#" class="btn btn-primary btn-rounded" style="font-size: 1.5rem; margin: 10px">Оформить заказ</a>
+    <a href="shop?command=cart_page&type=removeAll" class="btn btn-primary btn-rounded" style="font-size: 1.5rem; margin: 10px">Очистить</a>
+</p>
 </body>
 </html>

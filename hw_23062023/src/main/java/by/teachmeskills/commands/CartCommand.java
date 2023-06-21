@@ -18,16 +18,13 @@ public class CartCommand implements BaseCommand {
 
         try {
             switch (request.getParameter(RequestParametersEnum.TYPE.getValue())) {
-                case "show" -> {
-                    request.setAttribute(RequestAttributesEnum.CART.getValue(), cart);
-                }
+                case "show" -> request.setAttribute(RequestAttributesEnum.CART.getValue(), cart);
                 case "addProduct" -> {
                     cart.addProduct(DBCrudUtils.getProduct(Integer.parseInt(request.getParameter(RequestParametersEnum.ID.getValue()))));
                     return new ProductCommand().execute(request);
                 }
-                case "removeProduct" -> {
-                    cart.removeProduct(Integer.parseInt(request.getParameter(RequestParametersEnum.ID.getValue())));
-                }
+                case "removeProduct" -> cart.removeProduct(Integer.parseInt(request.getParameter(RequestParametersEnum.ID.getValue())));
+                case "removeAll" -> cart.clear();
                 default -> {
                     return PagesPathsEnum.HOME_PAGE.getPath();
                 }
