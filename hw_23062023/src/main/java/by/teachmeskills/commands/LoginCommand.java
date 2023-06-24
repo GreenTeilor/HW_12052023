@@ -28,17 +28,13 @@ public class LoginCommand implements BaseCommand{
         if (session.getAttribute(SessionAttributesEnum.USER.getValue()) == null) {
             try {
                 validateParametersNotNull(email, password);
-            } catch (CommandException e) {
-                return PagesPathsEnum.LOGIN_PAGE.getPath();
-            }
-
-            try {
                 session.setAttribute(SessionAttributesEnum.USER.getValue(), DBCrudUtils.getUser(email, password));
                 session.setAttribute(SessionAttributesEnum.CART.getValue(), new Cart());
             } catch (BadConnectionException e) {
                 System.out.println(e.getMessage());
+            } catch (CommandException e) {
+                return PagesPathsEnum.LOGIN_PAGE.getPath();
             }
-
         }
         return checkReceivedUser(request);
     }
