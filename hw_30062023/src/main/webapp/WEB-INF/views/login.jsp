@@ -5,6 +5,7 @@
     <jsp:include page="dependencies.jsp"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="style/login_register.css" rel="stylesheet">
+    <link href="style/common.css" rel="stylesheet">
 </head>
 <body>
 <div class="wrapper">
@@ -24,7 +25,7 @@
         <button type="submit" class="btn mt-3">Войти</button>
     </form>
     <div class="text-center fs-6">
-        <span>Нет аккаунта?</span> <a href="shop?command=register_page">Зарегистрироваться</a>
+        <span style="color: black">Нет аккаунта?</span> <a href="shop?command=register_page">Зарегистрироваться</a>
     </div>
     <div class="text-center fs-6">
         <span class="status">${status}</span>

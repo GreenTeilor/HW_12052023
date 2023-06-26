@@ -5,6 +5,7 @@
     <jsp:include page="dependencies.jsp"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="style/login_register.css" rel="stylesheet">
+    <link href="style/common.css" rel="stylesheet">
 </head>
 <body>
 <div class="wrapper">
@@ -14,7 +15,7 @@
     <div class="text-center mt-4 name">
         Регистрация
     </div>
-    <form class="p-3 mt-3 js-form" method="POST" action="register">
+    <form class="p-3 mt-3 js-form" method="POST" action="shop?command=register_page">
         <div class="form-field d-flex align-items-center">
             <input type="text" class="js-input" name="name" id="name" placeholder="Имя">
         </div>
@@ -33,7 +34,7 @@
         <button type="submit" class="btn mt-3">Зарегистрироваться</button>
     </form>
     <div class="text-center fs-6">
-        <span>Есть аккаунт?</span> <a href="shop">Войти</a>
+        <span style="color: black">Есть аккаунт?</span> <a href="shop">Войти</a>
     </div>
     <div class="text-center fs-6">
         <span style="color:${color};" class="status">${status}</span>

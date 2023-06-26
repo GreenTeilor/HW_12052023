@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="style/product.css" rel="stylesheet">
+    <link href="style/common.css" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="header.jsp"/>

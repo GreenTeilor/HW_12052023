@@ -7,13 +7,14 @@
     <title>${categoryName}</title>
     <jsp:include page="dependencies.jsp"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="style/common.css" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="header.jsp"/>
 <div class="row">
     <c:forEach items="${categoryProducts}" var="product">
         <div class="col d-flex justify-content-center">
-            <div class="card" style="width: 22rem; margin: 20px; background-color: lightgrey">
+            <div class="card" style="width: 22rem; margin: 20px; background-color: #dee2e6">
                 <a href="shop?command=product_page&id=${product.id()}"><img src="${product.imagePath()}" class="card-img-top" style="height: 25rem;" alt="..."></a>
                 <div class="card-body" style="text-align: center">
                     <h2 class="card-title">${product.name()}</h2>

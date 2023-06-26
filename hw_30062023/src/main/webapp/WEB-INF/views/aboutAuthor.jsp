@@ -4,6 +4,7 @@
     <title>About author</title>
     <jsp:include page="dependencies.jsp"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="style/common.css" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="header.jsp"/>
