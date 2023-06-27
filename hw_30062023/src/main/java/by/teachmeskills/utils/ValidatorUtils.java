@@ -83,4 +83,12 @@ public class ValidatorUtils {
         }
         return status;
     }
+
+    public static boolean isValidPhoneNumber(String phoneNumber) {
+        return phoneNumber.matches("^\\+375((29)|(44)|(25)|(33))[0-9]{7}$");
+    }
+
+    public static boolean isValidAddress(String address) {
+        return address.length() < 91;
+    }
 }

@@ -19,6 +19,7 @@ public class CommandFactoryUtils {
         COMMAND_LIST.put(CommandsEnum.CATEGORY_PAGE_COMMAND.getCommand(), new CategoryCommand());
         COMMAND_LIST.put(CommandsEnum.PRODUCT_PAGE_COMMAND.getCommand(), new ProductCommand());
         COMMAND_LIST.put(CommandsEnum.CART_PAGE_COMMAND.getCommand(), new CartCommand());
+        COMMAND_LIST.put(CommandsEnum.PROFILE_PAGE_COMMAND.getCommand(), new ProfileCommand());
     }
 
     public static BaseCommand defineCommand(HttpServletRequest request) {

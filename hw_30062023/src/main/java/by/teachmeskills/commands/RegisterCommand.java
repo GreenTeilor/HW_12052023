@@ -37,7 +37,7 @@ public class RegisterCommand implements BaseCommand {
         ValidatorUtils.Status status = ValidatorUtils.validateForm(name, lastName, email, birthDate, password);
         if (status == ValidatorUtils.Status.VALID) {
             try {
-                DBCrudUtils.addUser(new User(name, lastName, email, birthDate, BigDecimal.valueOf(0.0), password));
+                DBCrudUtils.addUser(new User(name, lastName, email, birthDate, LocalDate.now(), BigDecimal.valueOf(0.0), password, null, null));
                 request.setAttribute("status", status.toString());
                 request.setAttribute("color", "green");
             } catch (BadConnectionException e) {

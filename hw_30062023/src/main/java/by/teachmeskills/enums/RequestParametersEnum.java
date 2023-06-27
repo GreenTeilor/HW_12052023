@@ -9,7 +9,9 @@ public enum RequestParametersEnum {
     BIRTH_DATE("birthDate"),
     TYPE("type"),
 
-    COMMAND("command");
+    COMMAND("command"),
+    ADDRESS("address"),
+    PHONE_NUMBER("phoneNumber");
 
     private final String VALUE;
 

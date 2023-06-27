@@ -10,7 +10,7 @@
 <body>
 <jsp:include page="header.jsp"/>
 <c:if test="${sessionScope.user != null}">
-    <jsp:include page="profile.jsp"/>
+    <jsp:include page="info.jsp"/>
 </c:if>
 
 <div class="row">

@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -20,10 +21,11 @@ import java.util.function.Supplier;
 public class DBCrudUtils {
     private final static String SEARCH_USER_QUERY = "SELECT * FROM users WHERE email = ? and password = ?";
     private final static String GET_USER_BY_EMAIL = "SELECT * FROM users WHERE email = ?";
-    private final static String ADD_USER_QUERY = "INSERT INTO users (id, name, lastName, email, birthDate, balance, password) VALUES (?, ?, ?, ?, ?, 0.0, ?)";
+    private final static String ADD_USER_QUERY = "INSERT INTO users (id, name, lastName, email, birthDate, registrationDate, balance, password) VALUES (?, ?, ?, ?, ?, ?, 0.0, ?)";
     private final static String GET_CATEGORIES_QUERY = "SELECT * FROM categories";
     private final static String GET_CATEGORY_PRODUCTS_QUERY = "SELECT * FROM products WHERE category = ?";
     private final static String GET_PRODUCT_BY_ID = "SELECT * FROM products WHERE id = ?";
+    private final static String UPDATE_ADDRESS_AND_PHONE_NUMBER_QUERY = "UPDATE users SET address = ?, phoneNumber = ? WHERE email = ?";
     private static Connection connection;
 
     private DBCrudUtils() {
@@ -49,7 +51,9 @@ public class DBCrudUtils {
             ResultSet set = statement.executeQuery();
             if (set.next()) {
                 user = new User(set.getString("name"), set.getString("lastName"),
-                        set.getString("email"), set.getTimestamp("birthDate").toLocalDateTime().toLocalDate(), set.getBigDecimal("balance"), set.getString("password"));
+                        set.getString("email"), set.getTimestamp("birthDate").toLocalDateTime().toLocalDate(),
+                        set.getTimestamp("registrationDate").toLocalDateTime().toLocalDate(), set.getBigDecimal("balance"), set.getString("password"),
+                        set.getString("address"), set.getString("phoneNumber"));
             }
             set.close();
             return user;
@@ -58,19 +62,27 @@ public class DBCrudUtils {
         }
     }
 
-    public static boolean isUserPresent(String email) throws BadConnectionException {
+    public static User getUserByEmail(String email) throws BadConnectionException {
+        User user = null;
         try (PreparedStatement statement = connection.prepareStatement(GET_USER_BY_EMAIL)) {
             statement.setString(1, email);
             ResultSet set = statement.executeQuery();
-            return set.next();
+            if (set.next()) {
+                user = new User(set.getString("name"), set.getString("lastName"),
+                        set.getString("email"), set.getTimestamp("birthDate").toLocalDateTime().toLocalDate(),
+                        set.getTimestamp("registrationDate").toLocalDateTime().toLocalDate(), set.getBigDecimal("balance"), set.getString("password"),
+                        set.getString("address"), set.getString("phoneNumber"));
+            }
+            set.close();
+            return user;
         } catch (SQLException e) {
-            throw new BadConnectionException("Unable to execute query IS_USER_PRESENT_QUERY");
+            throw new BadConnectionException("Unable to execute query GET_USER_BY_EMAIL_QUERY");
         }
     }
 
     public static void addUser(User user) throws BadConnectionException, UserAlreadyExistsException {
         try (PreparedStatement statement = connection.prepareStatement(ADD_USER_QUERY)) {
-            if (isUserPresent(user.email())) {
+            if (getUserByEmail(user.email()) != null) {
                 throw new UserAlreadyExistsException("Такой пользователь уже существует");
             }
             statement.setString(1, String.valueOf(UUID.randomUUID()));
@@ -78,7 +90,8 @@ public class DBCrudUtils {
             statement.setString(3, user.lastName());
             statement.setString(4, user.email());
             statement.setTimestamp(5, Timestamp.valueOf(user.birthDate().atStartOfDay()));
-            statement.setString(6, HashUtils.getHash(user.password()));
+            statement.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
+            statement.setString(7, HashUtils.getHash(user.password()));
             statement.execute();
         } catch (SQLException e) {
             throw new BadConnectionException("Unable to execute query ADD_USER_QUERY");
@@ -130,6 +143,17 @@ public class DBCrudUtils {
             return product;
         } catch (SQLException e) {
             throw new BadConnectionException("Unable to execute query GET_PRODUCT_BY_ID_QUERY");
+        }
+    }
+
+    public static void updateAddressAndPhoneNumber(String address, String phoneNumber, String email) throws BadConnectionException {
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_ADDRESS_AND_PHONE_NUMBER_QUERY)) {
+            statement.setString(1, address);
+            statement.setString(2, phoneNumber);
+            statement.setString(3, email);
+            statement.execute();
+        } catch (SQLException e) {
+            throw new BadConnectionException("Unable to execute query UPDATE_ADDRESS_AND_PHONE_NUMBER_QUERY");
         }
     }
 }

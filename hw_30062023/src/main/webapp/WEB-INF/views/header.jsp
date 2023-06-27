@@ -24,7 +24,7 @@
             <a class="nav-link" href="shop?command=about_page">&#10067 Об авторе</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">&#128188 Профиль</a>
+            <a class="nav-link" href="shop?command=profile_page">&#128188 Профиль</a>
           </li>
           <%
             Cart cart = (Cart)request.getSession().getAttribute(SessionAttributesEnum.CART.getValue());
