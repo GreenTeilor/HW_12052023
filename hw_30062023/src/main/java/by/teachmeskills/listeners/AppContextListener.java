@@ -6,16 +6,19 @@ import by.teachmeskills.ConnectionPool;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @WebListener
 public class AppContextListener implements ServletContextListener {
+    private static final Logger logger = LoggerFactory.getLogger(AppContextListener.class);
     @Override
     public void contextInitialized(ServletContextEvent event) {
         ConnectionPool pool = ConnectionPool.getInstance();
         try {
             DBCrudUtils.setConnection(pool::getConnection);
         } catch (BadConnectionException e) {
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         }
     }
 

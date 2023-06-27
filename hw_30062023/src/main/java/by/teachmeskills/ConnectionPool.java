@@ -1,6 +1,9 @@
 package by.teachmeskills;
 
+import by.teachmeskills.commands.ProductCommand;
 import by.teachmeskills.exceptions.BadConnectionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,6 +13,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 public class ConnectionPool {
+    private static final Logger logger = LoggerFactory.getLogger(ConnectionPool.class);
     //Singleton instance
     private static volatile ConnectionPool instance;
 
@@ -57,7 +61,7 @@ public class ConnectionPool {
                 Class.forName("com.mysql.jdbc.Driver");
                 pool.add(DriverManager.getConnection(url, login, pass));
             } catch (SQLException | ClassNotFoundException e) {
-                System.out.println(e.getMessage());
+                logger.error(e.getMessage());
             }
         }
 
@@ -83,7 +87,7 @@ public class ConnectionPool {
             }
             connection = pool.take();
         } catch (InterruptedException | BadConnectionException e) {
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         }
         return connection;
     }
@@ -98,7 +102,7 @@ public class ConnectionPool {
             try {
                 pool.put(connection);
             } catch (InterruptedException e) {
-                System.out.println("Connection wasn't successfully returned to the pool");
+                logger.error("Connection wasn't successfully returned to the pool");
             }
         }
     }
@@ -108,7 +112,7 @@ public class ConnectionPool {
             try {
                 connection.close();
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                logger.error(e.getMessage());
             }
         });
     }

@@ -129,7 +129,7 @@ public class DBCrudUtils {
             set.close();
             return product;
         } catch (SQLException e) {
-            throw new BadConnectionException("Unable to execute query GET_PRODUCTS_IN_CATEGORY_QUERY");
+            throw new BadConnectionException("Unable to execute query GET_PRODUCT_BY_ID_QUERY");
         }
     }
 }

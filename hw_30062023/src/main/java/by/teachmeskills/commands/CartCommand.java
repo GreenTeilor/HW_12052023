@@ -9,9 +9,11 @@ import by.teachmeskills.exceptions.CommandException;
 import by.teachmeskills.types.Cart;
 import by.teachmeskills.utils.DBCrudUtils;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CartCommand implements BaseCommand {
-
+    private static final Logger logger = LoggerFactory.getLogger(CartCommand.class);
     @Override
     public String execute(HttpServletRequest request) throws CommandException {
         Cart cart = (Cart) request.getSession().getAttribute(SessionAttributesEnum.CART.getValue());
@@ -30,7 +32,7 @@ public class CartCommand implements BaseCommand {
                 }
             }
         } catch (BadConnectionException e) {
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         }
         request.setAttribute(RequestAttributesEnum.CART.getValue(), cart);
         return PagesPathsEnum.CART_PAGE.getPath();

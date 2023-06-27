@@ -8,8 +8,11 @@ import by.teachmeskills.exceptions.CommandException;
 import by.teachmeskills.types.Product;
 import by.teachmeskills.utils.DBCrudUtils;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ProductCommand implements BaseCommand{
+    private static final Logger logger = LoggerFactory.getLogger(ProductCommand.class);
     @Override
     public String execute(HttpServletRequest request) throws CommandException {
         Product product;
@@ -18,7 +21,7 @@ public class ProductCommand implements BaseCommand{
             request.setAttribute(RequestAttributesEnum.PRODUCT_NAME.getValue(), product.name());
             request.setAttribute(RequestAttributesEnum.PRODUCT.getValue(), product);
         } catch (BadConnectionException e) {
-            System.out.println(e.getMessage());
+            logger.info(e.getMessage());
         }
         return PagesPathsEnum.PRODUCT_PAGE.getPath();
     }

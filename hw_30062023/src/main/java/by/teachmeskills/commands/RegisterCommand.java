@@ -9,6 +9,8 @@ import by.teachmeskills.types.User;
 import by.teachmeskills.utils.DBCrudUtils;
 import by.teachmeskills.utils.ValidatorUtils;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -16,6 +18,7 @@ import java.time.LocalDate;
 import static by.teachmeskills.utils.HttpRequestParamValidatorUtils.validateParametersNotNull;
 
 public class RegisterCommand implements BaseCommand {
+    private static final Logger logger = LoggerFactory.getLogger(RegisterCommand.class);
     @Override
     public String execute(HttpServletRequest request) throws CommandException {
         String name = request.getParameter(RequestParametersEnum.NAME.getValue());
@@ -38,7 +41,7 @@ public class RegisterCommand implements BaseCommand {
                 request.setAttribute("status", status.toString());
                 request.setAttribute("color", "green");
             } catch (BadConnectionException e) {
-                System.out.println(e.getMessage());
+                logger.error(e.getMessage());
             } catch (UserAlreadyExistsException e) {
                 request.setAttribute("status", e.getMessage());
                 request.setAttribute("color", "red");

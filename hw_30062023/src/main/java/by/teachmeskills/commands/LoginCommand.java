@@ -12,13 +12,15 @@ import by.teachmeskills.types.User;
 import by.teachmeskills.utils.DBCrudUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 import static by.teachmeskills.utils.HttpRequestParamValidatorUtils.validateParametersNotNull;
 
 public class LoginCommand implements BaseCommand{
-
+    private static final Logger logger = LoggerFactory.getLogger(LoginCommand.class);
     @Override
     public String execute(HttpServletRequest request) throws CommandException {
         String email = request.getParameter(RequestParametersEnum.EMAIL.getValue());
@@ -31,7 +33,7 @@ public class LoginCommand implements BaseCommand{
                 session.setAttribute(SessionAttributesEnum.USER.getValue(), DBCrudUtils.getUser(email, password));
                 session.setAttribute(SessionAttributesEnum.CART.getValue(), new Cart());
             } catch (BadConnectionException e) {
-                System.out.println(e.getMessage());
+                logger.error(e.getMessage());
             } catch (CommandException e) {
                 return PagesPathsEnum.LOGIN_PAGE.getPath();
             }
@@ -47,7 +49,7 @@ public class LoginCommand implements BaseCommand{
             try {
                 categories = DBCrudUtils.getCategories();
             } catch (BadConnectionException e) {
-                System.out.println(e.getMessage());
+                logger.error(e.getMessage());
             }
 
             request.setAttribute(RequestAttributesEnum.CATEGORIES.getValue(), categories);
