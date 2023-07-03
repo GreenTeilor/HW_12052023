@@ -5,8 +5,9 @@ import by.teachmeskills.enums.RequestParametersEnum;
 import by.teachmeskills.exceptions.BadConnectionException;
 import by.teachmeskills.exceptions.CommandException;
 import by.teachmeskills.exceptions.UserAlreadyExistsException;
-import by.teachmeskills.types.User;
-import by.teachmeskills.utils.DBCrudUtils;
+import by.teachmeskills.entities.User;
+import by.teachmeskills.services.UserService;
+import by.teachmeskills.services.implementation.UserServiceImplementation;
 import by.teachmeskills.utils.ValidatorUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -35,9 +36,11 @@ public class RegisterCommand implements BaseCommand {
         LocalDate birthDate = LocalDate.parse(date);
 
         ValidatorUtils.Status status = ValidatorUtils.validateForm(name, lastName, email, birthDate, password);
+        UserService service = new UserServiceImplementation();
         if (status == ValidatorUtils.Status.VALID) {
             try {
-                DBCrudUtils.addUser(new User(name, lastName, email, birthDate, LocalDate.now(), BigDecimal.valueOf(0.0), password, null, null));
+                service.create(User.builder().name(name).lastName(lastName).email(email).birthDate(birthDate).
+                        registrationDate(LocalDate.now()).balance(BigDecimal.valueOf(0.0)).password(password).address(null).phoneNumber(null).build());
                 request.setAttribute("status", status.toString());
                 request.setAttribute("color", "green");
             } catch (BadConnectionException e) {

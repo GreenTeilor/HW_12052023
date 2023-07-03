@@ -15,14 +15,14 @@
     <c:forEach items="${cart.getProducts()}" var="product">
         <div class="col d-flex justify-content-center">
             <div class="card" style="width: 22rem; margin: 20px; background-color: #dee2e6">
-                <a href="shop?command=product_page&id=${product.id()}"><img src="${product.imagePath()}"
+                <a href="shop?command=product_page&id=${product.getId()}"><img src="${product.getImagePath()}"
                                                                             class="card-img-top" style="height: 25rem;"
                                                                             alt="..."></a>
                 <div class="card-body" style="text-align: center">
-                    <h2 class="card-title">${product.name()}</h2>
-                    <p class="card-text">Цена: <fmt:formatNumber value="${product.price()}"
+                    <h2 class="card-title">${product.getName()}</h2>
+                    <p class="card-text">Цена: <fmt:formatNumber value="${product.getPrice()}"
                                                                  type="currency"/><br></p>
-                    <a href="shop?command=cart_page&type=removeProduct&id=${product.id()}" class="btn btn-primary">Удалить</a>
+                    <a href="shop?command=cart_page&type=removeProduct&id=${product.getId()}" class="btn btn-primary">Удалить</a>
                 </div>
             </div>
         </div>

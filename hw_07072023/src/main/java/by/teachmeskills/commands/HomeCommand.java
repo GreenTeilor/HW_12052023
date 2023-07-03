@@ -5,9 +5,10 @@ import by.teachmeskills.enums.RequestAttributesEnum;
 import by.teachmeskills.enums.SessionAttributesEnum;
 import by.teachmeskills.exceptions.BadConnectionException;
 import by.teachmeskills.exceptions.CommandException;
-import by.teachmeskills.types.Category;
-import by.teachmeskills.types.User;
-import by.teachmeskills.utils.DBCrudUtils;
+import by.teachmeskills.entities.Category;
+import by.teachmeskills.entities.User;
+import by.teachmeskills.services.CategoryService;
+import by.teachmeskills.services.implementation.CategoryServiceImplementation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -19,13 +20,14 @@ public class HomeCommand implements BaseCommand{
     public String execute(HttpServletRequest request) throws CommandException {
         try {
             if (request.getSession().getAttribute(SessionAttributesEnum.USER.getValue()) != null) {
-                List<Category> categories = DBCrudUtils.getCategories();
+                CategoryService service = new CategoryServiceImplementation();
+                List<Category> categories = service.read();
                 request.setAttribute(RequestAttributesEnum.CATEGORIES.getValue(), categories);
                 HttpSession session = request.getSession();
                 User user = (User) session.getAttribute(SessionAttributesEnum.USER.getValue());
-                request.setAttribute(RequestAttributesEnum.NAME.getValue(), user.name());
-                request.setAttribute(RequestAttributesEnum.LAST_NAME.getValue(), user.lastName());
-                request.setAttribute(RequestAttributesEnum.BALANCE.getValue(), user.balance());
+                request.setAttribute(RequestAttributesEnum.NAME.getValue(), user.getName());
+                request.setAttribute(RequestAttributesEnum.LAST_NAME.getValue(), user.getLastName());
+                request.setAttribute(RequestAttributesEnum.BALANCE.getValue(), user.getBalance());
                 return PagesPathsEnum.HOME_PAGE.getPath();
             } else {
                 return PagesPathsEnum.LOGIN_PAGE.getPath();

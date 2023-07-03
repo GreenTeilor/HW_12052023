@@ -23,31 +23,31 @@
                         <div class="col-md-6">
                             <div class="media">
                                 <label>Имя</label>
-                                <p>${user.name()}</p>
+                                <p>${user.getName()}</p>
                             </div>
                             <div class="media">
                                 <label>Фамилия</label>
-                                <p>${user.lastName()}</p>
+                                <p>${user.getLastName()}</p>
                             </div>
                             <div class="media">
                                 <label>email</label>
-                                <p>${user.email()}</p>
+                                <p>${user.getEmail()}</p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="media">
                                 <label>Дата рождения</label>
-                                <p>${user.birthDate()}</p>
+                                <p>${user.getBirthDate()}</p>
                             </div>
                             <c:choose>
-                                <c:when test="${user.address() != null && user.phoneNumber() != null}">
+                                <c:when test="${user.getAddress() != null && user.getPhoneNumber() != null}">
                                     <div class="media">
                                         <label>Адрес</label>
-                                        <p>${user.address()}</p>
+                                        <p>${user.getAddress()}</p>
                                     </div>
                                     <div class="media">
                                         <label>Телефон</label>
-                                        <p>${user.phoneNumber()}</p>
+                                        <p>${user.getPhoneNumber()}</p>
                                     </div>
                                 </c:when>
                                 <c:otherwise>
@@ -119,15 +119,15 @@
                 <c:forEach items="${order.getProducts()}" var="product">
                     <div style="display: inline-block;">
                         <div class="card" style="width: 15rem; margin: 20px; background-color: #dee2e6">
-                            <a href="shop?command=product_page&id=${product.id()}"><img src="${product.imagePath()}"
+                            <a href="shop?command=product_page&id=${product.getId()}"><img src="${product.getImagePath()}"
                                                                                         class="card-img-top"
                                                                                         style="height: 17rem;"
                                                                                         alt="..."></a>
                             <div class="card-body" style="text-align: center">
-                                <h2 class="card-title" style="font-size: 1rem;">${product.name()}</h2>
-                                <p class="card-text">Цена: <fmt:formatNumber value="${product.price()}"
+                                <h2 class="card-title" style="font-size: 1rem;">${product.getName()}</h2>
+                                <p class="card-text">Цена: <fmt:formatNumber value="${product.getPrice()}"
                                                                              type="currency"/><br></p>
-                                <a href="shop?command=product_page&id=${product.id()}" class="btn btn-primary">Посмотреть</a>
+                                <a href="shop?command=product_page&id=${product.getId()}" class="btn btn-primary">Посмотреть</a>
                             </div>
                         </div>
                     </div>

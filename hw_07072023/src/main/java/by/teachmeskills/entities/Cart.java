@@ -1,4 +1,4 @@
-package by.teachmeskills.types;
+package by.teachmeskills.entities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class Cart {
     }
 
     public void removeProduct(int id) {
-        Optional<Product> product = cart.stream().filter(p -> p.id() == id).findFirst();
+        Optional<Product> product = cart.stream().filter(p -> p.getId() == id).findFirst();
         product.ifPresent(p -> cart.remove(p));
     }
 

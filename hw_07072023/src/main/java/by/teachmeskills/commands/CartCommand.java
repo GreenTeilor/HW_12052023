@@ -6,8 +6,9 @@ import by.teachmeskills.enums.RequestParametersEnum;
 import by.teachmeskills.enums.SessionAttributesEnum;
 import by.teachmeskills.exceptions.BadConnectionException;
 import by.teachmeskills.exceptions.CommandException;
-import by.teachmeskills.types.Cart;
-import by.teachmeskills.utils.DBCrudUtils;
+import by.teachmeskills.entities.Cart;
+import by.teachmeskills.services.ProductService;
+import by.teachmeskills.services.implementation.ProductServiceImplementation;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,10 +20,11 @@ public class CartCommand implements BaseCommand {
         Cart cart = (Cart) request.getSession().getAttribute(SessionAttributesEnum.CART.getValue());
 
         try {
+            ProductService service = new ProductServiceImplementation();
             switch (request.getParameter(RequestParametersEnum.TYPE.getValue())) {
                 case "show" -> request.setAttribute(RequestAttributesEnum.CART.getValue(), cart);
                 case "addProduct" -> {
-                    cart.addProduct(DBCrudUtils.getProduct(Integer.parseInt(request.getParameter(RequestParametersEnum.ID.getValue()))));
+                    cart.addProduct(service.getProductById(Integer.parseInt(request.getParameter(RequestParametersEnum.ID.getValue()))));
                     return new ProductCommand().execute(request);
                 }
                 case "removeProduct" -> cart.removeProduct(Integer.parseInt(request.getParameter(RequestParametersEnum.ID.getValue())));

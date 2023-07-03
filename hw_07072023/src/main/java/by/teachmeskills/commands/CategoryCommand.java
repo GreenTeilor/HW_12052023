@@ -5,8 +5,9 @@ import by.teachmeskills.enums.RequestAttributesEnum;
 import by.teachmeskills.enums.RequestParametersEnum;
 import by.teachmeskills.exceptions.BadConnectionException;
 import by.teachmeskills.exceptions.CommandException;
-import by.teachmeskills.types.Product;
-import by.teachmeskills.utils.DBCrudUtils;
+import by.teachmeskills.entities.Product;
+import by.teachmeskills.services.ProductService;
+import by.teachmeskills.services.implementation.ProductServiceImplementation;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
@@ -16,8 +17,9 @@ public class CategoryCommand implements BaseCommand{
     public String execute(HttpServletRequest request) throws CommandException {
         String categoryName = request.getParameter(RequestParametersEnum.NAME.getValue());
         List<Product> products;
+        ProductService service = new ProductServiceImplementation();
         try {
-            products = DBCrudUtils.getCategoryProducts(categoryName);
+            products = service.getCategoryProducts(categoryName);
         } catch (BadConnectionException e) {
             throw new RuntimeException(e);
         }

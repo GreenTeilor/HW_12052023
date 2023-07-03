@@ -1,6 +1,5 @@
-package by.teachmeskills;
+package by.teachmeskills.repositories;
 
-import by.teachmeskills.commands.ProductCommand;
 import by.teachmeskills.exceptions.BadConnectionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

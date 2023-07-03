@@ -5,8 +5,9 @@ import by.teachmeskills.enums.RequestAttributesEnum;
 import by.teachmeskills.enums.RequestParametersEnum;
 import by.teachmeskills.exceptions.BadConnectionException;
 import by.teachmeskills.exceptions.CommandException;
-import by.teachmeskills.types.Product;
-import by.teachmeskills.utils.DBCrudUtils;
+import by.teachmeskills.entities.Product;
+import by.teachmeskills.services.ProductService;
+import by.teachmeskills.services.implementation.ProductServiceImplementation;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +17,10 @@ public class ProductCommand implements BaseCommand{
     @Override
     public String execute(HttpServletRequest request) throws CommandException {
         Product product;
+        ProductService service = new ProductServiceImplementation();
         try {
-            product = DBCrudUtils.getProduct(Integer.parseInt(request.getParameter(RequestParametersEnum.ID.getValue())));
-            request.setAttribute(RequestAttributesEnum.PRODUCT_NAME.getValue(), product.name());
+            product = service.getProductById((Integer.parseInt(request.getParameter(RequestParametersEnum.ID.getValue()))));
+            request.setAttribute(RequestAttributesEnum.PRODUCT_NAME.getValue(), product.getName());
             request.setAttribute(RequestAttributesEnum.PRODUCT.getValue(), product);
         } catch (BadConnectionException e) {
             logger.info(e.getMessage());

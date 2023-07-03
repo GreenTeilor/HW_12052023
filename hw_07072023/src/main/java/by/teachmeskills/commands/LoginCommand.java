@@ -6,10 +6,13 @@ import by.teachmeskills.enums.RequestParametersEnum;
 import by.teachmeskills.enums.SessionAttributesEnum;
 import by.teachmeskills.exceptions.BadConnectionException;
 import by.teachmeskills.exceptions.CommandException;
-import by.teachmeskills.types.Cart;
-import by.teachmeskills.types.Category;
-import by.teachmeskills.types.User;
-import by.teachmeskills.utils.DBCrudUtils;
+import by.teachmeskills.entities.Cart;
+import by.teachmeskills.entities.Category;
+import by.teachmeskills.entities.User;
+import by.teachmeskills.services.CategoryService;
+import by.teachmeskills.services.UserService;
+import by.teachmeskills.services.implementation.CategoryServiceImplementation;
+import by.teachmeskills.services.implementation.UserServiceImplementation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
@@ -27,10 +30,11 @@ public class LoginCommand implements BaseCommand{
         String password = request.getParameter(RequestParametersEnum.PASSWORD.getValue());
 
         HttpSession session = request.getSession();
+        UserService service = new UserServiceImplementation();
         if (session.getAttribute(SessionAttributesEnum.USER.getValue()) == null) {
             try {
                 validateParametersNotNull(email, password);
-                session.setAttribute(SessionAttributesEnum.USER.getValue(), DBCrudUtils.getUser(email, password));
+                session.setAttribute(SessionAttributesEnum.USER.getValue(), service.getUser(email, password));
                 session.setAttribute(SessionAttributesEnum.CART.getValue(), new Cart());
             } catch (BadConnectionException e) {
                 logger.error(e.getMessage());
@@ -43,19 +47,20 @@ public class LoginCommand implements BaseCommand{
 
     private String checkReceivedUser(HttpServletRequest request) {
         User user = (User)request.getSession().getAttribute(SessionAttributesEnum.USER.getValue());
+        CategoryService service = new CategoryServiceImplementation();
         if (user != null) {
             request.getSession().setAttribute(SessionAttributesEnum.USER.getValue(), user);
             List<Category> categories = null;
             try {
-                categories = DBCrudUtils.getCategories();
+                categories = service.read();
             } catch (BadConnectionException e) {
                 logger.error(e.getMessage());
             }
 
             request.setAttribute(RequestAttributesEnum.CATEGORIES.getValue(), categories);
-            request.setAttribute(RequestAttributesEnum.NAME.getValue(), user.name());
-            request.setAttribute(RequestAttributesEnum.LAST_NAME.getValue(), user.lastName());
-            request.setAttribute(RequestAttributesEnum.BALANCE.getValue(), user.balance());
+            request.setAttribute(RequestAttributesEnum.NAME.getValue(), user.getName());
+            request.setAttribute(RequestAttributesEnum.LAST_NAME.getValue(), user.getLastName());
+            request.setAttribute(RequestAttributesEnum.BALANCE.getValue(), user.getBalance());
 
             return PagesPathsEnum.HOME_PAGE.getPath();
         } else {

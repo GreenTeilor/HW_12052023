@@ -16,23 +16,23 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
-            <h3 class="card-title">${product.name()}</h3>
-            <h6 class="card-subtitle">Жанр: ${product.category()}</h6>
+            <h3 class="card-title">${product.getName()}</h3>
+            <h6 class="card-subtitle">Жанр: ${product.getCategory()}</h6>
             <div class="row">
                 <div class="col-lg-5">
                     <div class="white-box text-left">
-                        <img src="${product.imagePath()}" class="img-responsive bookImg">
+                        <img src="${product.getImagePath()}" class="img-responsive bookImg">
                     </div>
                 </div>
                 <div class="col-lg-7 justify-content: right">
                     <h4 class="box-title mt-5">Описание</h4>
-                    <p>${product.description()}</p>
+                    <p>${product.getDescription()}</p>
                     <h2 class="mt-5">
-                        <fmt:formatNumber value="${product.price()}"
+                        <fmt:formatNumber value="${product.getPrice()}"
                                           type="currency"/>
                     </h2>
 
-                        <a href="shop?command=cart_page&type=addProduct&id=${product.id()}" class="btn btn-primary btn-rounded">Купить</a>
+                        <a href="shop?command=cart_page&type=addProduct&id=${product.getId()}" class="btn btn-primary btn-rounded">Купить</a>
 
                     <h3 class="box-title mt-5">Почему мы?</h3>
                     <ul class="list-unstyled">
