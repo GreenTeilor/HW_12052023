@@ -58,7 +58,7 @@
                                     </div>
                                     <div class="media">
                                         <label for="phoneNumber">Номер телефона</label>
-                                        <input type="text" name="phoneNumber" id="phoneNumber" placeholder="Номер телефона">
+                                        <input type="tel" name="phoneNumber" id="phoneNumber" placeholder="Номер телефона">
                                     </div>
                                     <button type="submit">Отправить</button>
                                 <form>
@@ -114,7 +114,8 @@
 
     <c:forEach items="${orders}" var="order">
         <div class="history">
-            <span>Заказ: ${order.getId()} Дата: ${order.getDate()}</span>
+            <span>Заказ: ${order.getId()} Дата: ${order.getDate()}</span><span style="padding-left: 10px">Цена: <fmt:formatNumber value="${order.getPrice()}"
+                                                                                                                                  type="currency"/></span>
             <div style="text-align: center">
                 <c:forEach items="${order.getProducts()}" var="product">
                     <div style="display: inline-block;">
