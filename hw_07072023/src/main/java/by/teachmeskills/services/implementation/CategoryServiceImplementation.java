@@ -10,7 +10,7 @@ import java.util.List;
 public class CategoryServiceImplementation implements CategoryService {
     private CategoryRepositoryImplementation categoryRepository = new CategoryRepositoryImplementation();
     @Override
-    public Category create(Category category) {
+    public Category create(Category category) throws BadConnectionException {
         return categoryRepository.create(category);
     }
 
@@ -20,12 +20,12 @@ public class CategoryServiceImplementation implements CategoryService {
     }
 
     @Override
-    public Category update(Category category) {
-        return categoryRepository.create(category);
+    public Category update(Category category) throws BadConnectionException {
+        return categoryRepository.update(category);
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(int id) throws BadConnectionException {
         categoryRepository.delete(id);
     }
 }
