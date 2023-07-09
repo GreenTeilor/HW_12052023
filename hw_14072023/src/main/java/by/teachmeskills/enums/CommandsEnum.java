@@ -8,7 +8,8 @@ public enum CommandsEnum {
     CATEGORY_PAGE_COMMAND("category_page"),
     PRODUCT_PAGE_COMMAND("product_page"),
     CART_PAGE_COMMAND("cart_page"),
-    PROFILE_PAGE_COMMAND("profile_page");
+    PROFILE_PAGE_COMMAND("profile_page"),
+    SEARCH_PAGE_COMMAND("search_page");
 
 
     private final String COMMAND;

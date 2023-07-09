@@ -51,17 +51,22 @@
                                     </div>
                                 </c:when>
                                 <c:otherwise>
-                            <form method="POST" action="shop?command=profile_page">
-                                    <div class="media">
-                                        <label for="address">Адрес</label>
-                                        <input type="text" name="address" id="address" placeholder="Адрес">
-                                    </div>
-                                    <div class="media">
-                                        <label for="phoneNumber">Номер телефона</label>
-                                        <input type="tel" name="phoneNumber" id="phoneNumber" placeholder="Номер телефона">
-                                    </div>
-                                    <button type="submit">Отправить</button>
-                                <form>
+                                    <form method="POST" action="shop?command=profile_page">
+                                        <div class="media">
+                                            <label for="address">Адрес</label>
+                                            <div>
+                                                <input class="info-input" type="text" name="address" id="address" placeholder="Адрес">
+                                            </div>
+                                        </div>
+                                        <div class="media">
+                                            <label for="phoneNumber">Номер телефона</label>
+                                            <div>
+                                                <input class="info-input" type="tel" name="phoneNumber" id="phoneNumber"
+                                                       placeholder="Номер телефона">
+                                            </div>
+                                        </div>
+                                        <button class="input-button btn btn-primary" type="submit">Отправить</button>
+                                    </form>
                                 </c:otherwise>
                             </c:choose>
 
@@ -77,25 +82,25 @@
         </div>
         <div class="counter">
             <div class="row">
-                <div class="col-6 col-lg-3">
+                <div class="col-md-6 col-lg-3">
                     <div class="count-data text-center">
                         <h6 class="count h2" data-to="500" data-speed="500">${statistics.daysRegistered()} дней</h6>
                         <p class="m-0px font-w-600">С нами</p>
                     </div>
                 </div>
-                <div class="col-6 col-lg-3">
+                <div class="col-md-6 col-lg-3">
                     <div class="count-data text-center">
                         <h6 class="count h2" data-to="150" data-speed="150">${statistics.orderCount()}</h6>
                         <p class="m-0px font-w-600">Сделано заказов</p>
                     </div>
                 </div>
-                <div class="col-6 col-lg-3">
+                <div class="col-md-6 col-lg-3">
                     <div class="count-data text-center">
                         <h6 class="count h2" data-to="850" data-speed="850">${statistics.booksCount()}</h6>
                         <p class="m-0px font-w-600">Куплено книг</p>
                     </div>
                 </div>
-                <div class="col-6 col-lg-3">
+                <div class="col-md-6 col-lg-3">
                     <div class="count-data text-center">
                         <h6 class="count h2" data-to="190" data-speed="190">${statistics.favoriteGenre()}</h6>
                         <p class="m-0px font-w-600">Любимый жанр</p>
@@ -114,16 +119,27 @@
 
     <c:forEach items="${orders}" var="order">
         <div class="history">
-            <span>Заказ: ${order.getId()} Дата: ${order.getDate()}</span><span style="padding-left: 10px">Цена: <fmt:formatNumber value="${order.getPrice()}"
-                                                                                                                                  type="currency"/></span>
+            <div class="generalData">
+                <div style="display: inline-block;">
+                    <span>Заказ: ${order.getId()} </span>
+                </div>
+                <div style="display: inline-block;">
+                    <span>Дата: ${order.getDate()}</span>
+                </div>
+                <div style="display: inline-block;">
+                <span>Цена: <fmt:formatNumber value="${order.getPrice()}"
+                                              type="currency"/></span>
+                </div>
+            </div>
             <div style="text-align: center">
                 <c:forEach items="${order.getProducts()}" var="product">
                     <div style="display: inline-block;">
                         <div class="card" style="width: 15rem; margin: 20px; background-color: #dee2e6">
-                            <a href="shop?command=product_page&id=${product.getId()}"><img src="${product.getImagePath()}"
-                                                                                        class="card-img-top"
-                                                                                        style="height: 17rem;"
-                                                                                        alt="..."></a>
+                            <a href="shop?command=product_page&id=${product.getId()}"><img
+                                    src="${product.getImagePath()}"
+                                    class="card-img-top"
+                                    style="height: 17rem;"
+                                    alt="..."></a>
                             <div class="card-body" style="text-align: center">
                                 <h2 class="card-title" style="font-size: 1rem;">${product.getName()}</h2>
                                 <p class="card-text">Цена: <fmt:formatNumber value="${product.getPrice()}"

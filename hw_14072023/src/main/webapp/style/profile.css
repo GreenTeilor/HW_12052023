@@ -122,6 +122,18 @@ mark {
     color: #20247b;
 }
 
+.info-input {
+    border-radius: 10px;
+    outline: none;
+    border-color: #b1b1b1;
+    border-style: solid;
+}
+
+.input-button{
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
 .history {
     padding: 22px 20px;
     background: #ffffff;
@@ -136,6 +148,14 @@ mark {
     font-size: 1.5rem;
     font-weight: bold;
     background-image: url("../assets/wood.jpg");
+}
+
+.history .generalData {
+    text-align: left;
+}
+
+.history .generalData div {
+    display: inline-block;
 }
 
 .history .count-data {
