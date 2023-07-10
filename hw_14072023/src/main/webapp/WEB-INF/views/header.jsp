@@ -34,7 +34,7 @@
             <a class="nav-link" href="shop?command=cart_page&type=show">&#128465 Корзина<sup style="color: red; font-weight: bold; font-size: 1rem;"><%=productsInCart%></sup></a>
           </li>
           <li>
-            <a class="nav-link" href="shop?command=search_page&type=show">&#128269 Поиск</a>
+            <a class="nav-link" href="shop?command=search_page">&#128269 Поиск</a>
           </li>
         </ul>
       </div>

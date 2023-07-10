@@ -10,7 +10,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class ProductRepositoryImplementation implements ProductRepository {
     private final static String GET_CATEGORY_PRODUCTS_QUERY = "SELECT * FROM products WHERE category = ?";
@@ -19,6 +22,8 @@ public class ProductRepositoryImplementation implements ProductRepository {
     private final static String GET_PRODUCTS_QUERY = "SELECT * FROM products";
     private final static String ADD_PRODUCT_QUERY = "INSERT INTO products (name, description, imagePath, category, price) VALUES (?, ?, ?, ?, ?)";
     private final static String DELETE_PRODUCT_BY_ID_QUERY = "DELETE FROM products WHERE id = ?";
+    private final static String SEARCH_PRODUCTS_BY_NAME_QUERY = "SELECT * FROM products WHERE name LIKE ? ORDER BY name ASC";
+    private final static String SEARCH_PRODUCTS_BY_DESCRIPTION_QUERY = "SELECT * FROM products WHERE description LIKE ? ORDER BY name ASC";
 
     @Override
     public List<Product> getCategoryProducts(String category) throws BadConnectionException {
@@ -57,6 +62,40 @@ public class ProductRepositoryImplementation implements ProductRepository {
             return product;
         } catch (SQLException e) {
             throw new BadConnectionException("Unable to execute query GET_PRODUCT_BY_ID_QUERY");
+        } finally {
+            pool.returnConnection(connection);
+        }
+    }
+
+    @Override
+    public List<Product> findProducts(String keyWords) throws BadConnectionException {
+        Connection connection = pool.getConnection();
+        List<Product> foundByName = new LinkedList<>();
+        List<Product> foundByDescription = new LinkedList<>();
+        try (PreparedStatement searchNameStatement = connection.prepareStatement(SEARCH_PRODUCTS_BY_NAME_QUERY);
+             PreparedStatement searchDescriptionStatement = connection.prepareStatement(SEARCH_PRODUCTS_BY_DESCRIPTION_QUERY)) {
+            keyWords = "%" + keyWords.trim() + "%";
+            searchNameStatement.setString(1, keyWords);
+            searchDescriptionStatement.setString(1, keyWords);
+            ResultSet byNameSet = searchNameStatement.executeQuery();
+            ResultSet byDescriptionSet = searchDescriptionStatement.executeQuery();
+            while (byNameSet.next()) {
+                foundByName.add(Product.builder().id(byNameSet.getInt("id")).name(byNameSet.getString("name")).
+                        description(byNameSet.getString("description")).imagePath(byNameSet.getString("imagePath")).
+                        category(byNameSet.getString("category")).price(byNameSet.getBigDecimal("price")).build());
+            }
+            while (byDescriptionSet.next()) {
+                foundByDescription.add(Product.builder().id(byDescriptionSet.getInt("id")).name(byDescriptionSet.getString("name")).
+                        description(byDescriptionSet.getString("description")).imagePath(byDescriptionSet.getString("imagePath")).
+                        category(byDescriptionSet.getString("category")).price(byDescriptionSet.getBigDecimal("price")).build());
+            }
+            Set<Product> result = new LinkedHashSet<>(foundByName);
+            result.addAll(foundByDescription);
+            byNameSet.close();
+            byDescriptionSet.close();
+            return result.stream().toList();
+        } catch (SQLException e) {
+            throw new BadConnectionException("Unable to execute query SEARCH_PRODUCTS_BY_NAME_QUERY || SEARCH_PRODUCTS_BY_DESCRIPTION_QUERY");
         } finally {
             pool.returnConnection(connection);
         }

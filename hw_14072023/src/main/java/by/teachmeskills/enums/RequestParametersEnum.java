@@ -11,7 +11,8 @@ public enum RequestParametersEnum {
 
     COMMAND("command"),
     ADDRESS("address"),
-    PHONE_NUMBER("phoneNumber");
+    PHONE_NUMBER("phoneNumber"),
+    SEARCH_CRITERIA("searchCriteria");
 
     private final String VALUE;
 

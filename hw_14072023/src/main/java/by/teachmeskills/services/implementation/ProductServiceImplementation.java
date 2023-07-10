@@ -23,6 +23,11 @@ public class ProductServiceImplementation implements ProductService {
     }
 
     @Override
+    public List<Product> findProducts(String keyWords) throws BadConnectionException {
+        return productRepository.findProducts(keyWords);
+    }
+
+    @Override
     public Product create(Product product) throws BadConnectionException, UserAlreadyExistsException {
         return productRepository.create(product);
     }

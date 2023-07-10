@@ -11,9 +11,9 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
-<form class="well form-inline search-form" method="POST" action="shop">
-    <input type="text" name="criteria" id="criteria" class="span3" placeholder="Поиск">
-    <button class="btn btn-primary">Найти</button>
+<form class="well form-inline search-form" method="POST" action="shop?command=search_page">
+    <input type="text" name="searchCriteria" id="searchCriteria" class="span3" placeholder="Поиск">
+    <button type="submit" class="btn btn-primary">Найти</button>
 </form>
 <div class="row filter-and-content">
     <div class="col-md-5 d-flex justify-content-center align-items-center">
@@ -21,7 +21,7 @@
             <div class="items-group main-text">
                 Фильтр
             </div>
-            <form method="POST" action="shop">
+            <form method="POST" action="shop?command=search_page">
                 <div class="items-group">
                     <div>
                         <label for="categories">Категория</label>
