@@ -15,12 +15,11 @@ import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 public class HomeCommand implements BaseCommand{
-
+    private static final CategoryService service = new CategoryServiceImplementation();
     @Override
     public String execute(HttpServletRequest request) throws CommandException {
         try {
             if (request.getSession().getAttribute(SessionAttributesEnum.USER.getValue()) != null) {
-                CategoryService service = new CategoryServiceImplementation();
                 List<Category> categories = service.read();
                 request.setAttribute(RequestAttributesEnum.CATEGORIES.getValue(), categories);
                 HttpSession session = request.getSession();

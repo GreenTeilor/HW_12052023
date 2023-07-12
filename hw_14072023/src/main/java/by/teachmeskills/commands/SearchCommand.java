@@ -17,12 +17,12 @@ import static by.teachmeskills.utils.HttpRequestParamValidatorUtils.validatePara
 
 public class SearchCommand implements BaseCommand {
     private static final Logger logger = LoggerFactory.getLogger(SearchCommand.class);
+    private static final ProductService productService = new ProductServiceImplementation();
+    private static final CategoryService categoryService = new CategoryServiceImplementation();
 
     @Override
     public String execute(HttpServletRequest request) throws CommandException {
         try {
-            ProductService productService = new ProductServiceImplementation();
-            CategoryService categoryService = new CategoryServiceImplementation();
             String searchCriteria = request.getParameter(RequestParametersEnum.SEARCH_CRITERIA.getValue());
             try {
                 validateParametersNotNull(searchCriteria);

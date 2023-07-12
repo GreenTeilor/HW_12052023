@@ -27,13 +27,13 @@ import java.util.List;
 
 public class ProfileCommand implements BaseCommand{
     private static final Logger logger = LoggerFactory.getLogger(ProfileCommand.class);
+    private static final ProductService productService = new ProductServiceImplementation();
+    private static final UserService userService = new UserServiceImplementation();
     @Override
     public String execute(HttpServletRequest request) throws CommandException {
         HttpSession session = request.getSession();
         String address = request.getParameter(RequestParametersEnum.ADDRESS.getValue());
         String phoneNumber = request.getParameter(RequestParametersEnum.PHONE_NUMBER.getValue());
-        UserService userService = new UserServiceImplementation();
-        ProductService productService = new ProductServiceImplementation();
         if (address != null && phoneNumber != null) {
             try {
                 if (ValidatorUtils.isValidAddress(address) && ValidatorUtils.isValidPhoneNumber(phoneNumber)) {

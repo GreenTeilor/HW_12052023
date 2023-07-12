@@ -20,6 +20,7 @@ import static by.teachmeskills.utils.HttpRequestParamValidatorUtils.validatePara
 
 public class RegisterCommand implements BaseCommand {
     private static final Logger logger = LoggerFactory.getLogger(RegisterCommand.class);
+    private static final UserService service = new UserServiceImplementation();
     @Override
     public String execute(HttpServletRequest request) throws CommandException {
         String name = request.getParameter(RequestParametersEnum.NAME.getValue());
@@ -36,7 +37,6 @@ public class RegisterCommand implements BaseCommand {
         LocalDate birthDate = LocalDate.parse(date);
 
         ValidatorUtils.Status status = ValidatorUtils.validateForm(name, lastName, email, birthDate, password);
-        UserService service = new UserServiceImplementation();
         if (status == ValidatorUtils.Status.VALID) {
             try {
                 service.create(User.builder().name(name).lastName(lastName).email(email).birthDate(birthDate).

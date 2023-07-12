@@ -13,11 +13,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class CategoryCommand implements BaseCommand{
+    private static final ProductService service = new ProductServiceImplementation();
     @Override
     public String execute(HttpServletRequest request) throws CommandException {
         String categoryName = request.getParameter(RequestParametersEnum.NAME.getValue());
         List<Product> products;
-        ProductService service = new ProductServiceImplementation();
         try {
             products = service.getCategoryProducts(categoryName);
         } catch (BadConnectionException e) {

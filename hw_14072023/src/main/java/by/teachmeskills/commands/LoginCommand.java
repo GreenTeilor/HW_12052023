@@ -24,6 +24,8 @@ import static by.teachmeskills.utils.HttpRequestParamValidatorUtils.validatePara
 
 public class LoginCommand implements BaseCommand{
     private static final Logger logger = LoggerFactory.getLogger(LoginCommand.class);
+    private static final CategoryService service = new CategoryServiceImplementation();
+
     @Override
     public String execute(HttpServletRequest request) throws CommandException {
         String email = request.getParameter(RequestParametersEnum.EMAIL.getValue());
@@ -47,7 +49,6 @@ public class LoginCommand implements BaseCommand{
 
     private String checkReceivedUser(HttpServletRequest request) {
         User user = (User)request.getSession().getAttribute(SessionAttributesEnum.USER.getValue());
-        CategoryService service = new CategoryServiceImplementation();
         if (user != null) {
             request.getSession().setAttribute(SessionAttributesEnum.USER.getValue(), user);
             List<Category> categories = null;

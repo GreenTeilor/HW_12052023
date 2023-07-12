@@ -14,10 +14,10 @@ import org.slf4j.LoggerFactory;
 
 public class ProductCommand implements BaseCommand{
     private static final Logger logger = LoggerFactory.getLogger(ProductCommand.class);
+    private static final ProductService service = new ProductServiceImplementation();
     @Override
     public String execute(HttpServletRequest request) throws CommandException {
         Product product;
-        ProductService service = new ProductServiceImplementation();
         try {
             product = service.getProductById((Integer.parseInt(request.getParameter(RequestParametersEnum.ID.getValue()))));
             request.setAttribute(RequestAttributesEnum.PRODUCT_NAME.getValue(), product.getName());

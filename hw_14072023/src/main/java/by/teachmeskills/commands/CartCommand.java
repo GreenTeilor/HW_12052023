@@ -15,12 +15,12 @@ import org.slf4j.LoggerFactory;
 
 public class CartCommand implements BaseCommand {
     private static final Logger logger = LoggerFactory.getLogger(CartCommand.class);
+    private static final ProductService service = new ProductServiceImplementation();
     @Override
     public String execute(HttpServletRequest request) throws CommandException {
         Cart cart = (Cart) request.getSession().getAttribute(SessionAttributesEnum.CART.getValue());
 
         try {
-            ProductService service = new ProductServiceImplementation();
             switch (request.getParameter(RequestParametersEnum.TYPE.getValue())) {
                 case "show" -> request.setAttribute(RequestAttributesEnum.CART.getValue(), cart);
                 case "addProduct" -> {
