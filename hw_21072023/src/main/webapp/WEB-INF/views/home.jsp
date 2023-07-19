@@ -17,12 +17,12 @@
     <c:forEach items="${categories}" var="item">
         <div class="col d-flex justify-content-center">
             <div class="card" style="width: 22rem; margin: 20px; background-color: #dee2e6 !important; border-radius: 40px;">
-                <a href="shop?command=category_page&name=${item.getName()}"><img src="${item.getImagePath()}"
+                <a href="category?name=${item.getName()}"><img src="${item.getImagePath()}"
                                                                               class="card-img-top"
                                                                               style="height: 25rem; border-radius: 40px 40px 0 0;" alt="..."></a>
                 <div class="card-body" style="text-align: center">
                     <h2 class="card-title">${item.getName()}</h2>
-                    <a href="shop?command=category_page&name=${item.getName()}" class="btn btn-primary">Перейти</a>
+                    <a href="category?name=${item.getName()}" class="btn btn-primary">Перейти</a>
                 </div>
             </div>
         </div>

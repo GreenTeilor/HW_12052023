@@ -11,7 +11,7 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
-<form class="well form-inline search-form" method="POST" action="shop?command=search_page">
+<form class="well form-inline search-form" method="POST" action="search">
     <input type="text" name="searchCriteria" id="searchCriteria" class="span3" placeholder="Поиск">
     <button type="submit" class="btn btn-primary">Найти</button>
 </form>
@@ -21,7 +21,7 @@
             <div class="items-group main-text">
                 Фильтр
             </div>
-            <form method="POST" action="shop?command=search_page">
+            <form method="POST" action="search">
                 <div class="items-group">
                     <div>
                         <label for="categories">Категория</label>
@@ -55,7 +55,7 @@
                 <c:forEach items="${products}" var="product">
                     <div style="display: inline-block;">
                         <div class="card" style="width: 15rem; margin: 20px; background-color: #dee2e6">
-                            <a href="shop?command=product_page&id=${product.getId()}"><img
+                            <a href="product?id=${product.getId()}"><img
                                     src="${product.getImagePath()}"
                                     class="card-img-top"
                                     style="height: 17rem;"
@@ -64,7 +64,7 @@
                                 <h2 class="card-title" style="font-size: 1rem;">${product.getName()}</h2>
                                 <p class="card-text">Цена: <fmt:formatNumber value="${product.getPrice()}"
                                                                              type="currency"/><br></p>
-                                <a href="shop?command=product_page&id=${product.getId()}" class="btn btn-primary">Посмотреть</a>
+                                <a href="product?id=${product.getId()}" class="btn btn-primary">Посмотреть</a>
                             </div>
                         </div>
                     </div>
@@ -82,9 +82,6 @@
         </div>
     </div>
 </div>
-<!--
-
--->
 
 </body>
 </html>

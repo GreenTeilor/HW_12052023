@@ -51,7 +51,7 @@
                                     </div>
                                 </c:when>
                                 <c:otherwise>
-                                    <form method="POST" action="shop?command=profile_page">
+                                    <form method="POST" action="profile">
                                         <div class="media">
                                             <label for="address">Адрес</label>
                                             <div>
@@ -135,7 +135,7 @@
                 <c:forEach items="${order.getProducts()}" var="product">
                     <div style="display: inline-block;">
                         <div class="card" style="width: 15rem; margin: 20px; background-color: #dee2e6">
-                            <a href="shop?command=product_page&id=${product.getId()}"><img
+                            <a href="product?id=${product.getId()}"><img
                                     src="${product.getImagePath()}"
                                     class="card-img-top"
                                     style="height: 17rem;"
@@ -144,7 +144,7 @@
                                 <h2 class="card-title" style="font-size: 1rem;">${product.getName()}</h2>
                                 <p class="card-text">Цена: <fmt:formatNumber value="${product.getPrice()}"
                                                                              type="currency"/><br></p>
-                                <a href="shop?command=product_page&id=${product.getId()}" class="btn btn-primary">Посмотреть</a>
+                                <a href="product?id=${product.getId()}" class="btn btn-primary">Посмотреть</a>
                             </div>
                         </div>
                     </div>

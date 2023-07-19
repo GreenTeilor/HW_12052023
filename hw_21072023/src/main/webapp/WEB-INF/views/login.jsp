@@ -15,7 +15,7 @@
     <div class="text-center mt-4 name">
         Вход
     </div>
-    <form class="p-3 mt-3" method="POST" action="shop">
+    <form class="p-3 mt-3" method="POST" action="login">
         <div class="form-field d-flex align-items-center">
             <input type="email" name="email" id="email" placeholder="Email">
         </div>
@@ -25,7 +25,7 @@
         <button type="submit" class="btn mt-3">Войти</button>
     </form>
     <div class="text-center fs-6">
-        <span style="color: black">Нет аккаунта?</span> <a href="shop?command=register_page">Зарегистрироваться</a>
+        <span style="color: black">Нет аккаунта?</span> <a href="register">Зарегистрироваться</a>
     </div>
     <div class="text-center fs-6">
         <span class="status">${status}</span>
