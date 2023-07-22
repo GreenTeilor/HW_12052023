@@ -22,7 +22,7 @@ public class CartController {
     }
 
     @PostMapping
-    public ModelAndView makeOperation(@SessionAttribute(name= SessionAttributesNames.CART) Cart cart, @RequestParam String actionType, Integer productId) {
+    public ModelAndView makeOperation(@SessionAttribute(SessionAttributesNames.CART) Cart cart, @RequestParam String actionType, Integer productId) {
         ModelAndView modelAndView = new ModelAndView(PagesPaths.CART_PAGE);
         switch (actionType) {
             case "removeProduct" -> cart.removeProduct(productId);

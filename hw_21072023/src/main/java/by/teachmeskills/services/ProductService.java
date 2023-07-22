@@ -1,12 +1,15 @@
 package by.teachmeskills.services;
 
+import by.teachmeskills.entities.Cart;
 import by.teachmeskills.entities.Product;
-import by.teachmeskills.exceptions.BadConnectionException;
-
-import java.util.List;
+import by.teachmeskills.entities.User;
+import org.springframework.web.servlet.ModelAndView;
 
 public interface ProductService extends BaseService<Product>{
-    List<Product> getCategoryProducts(String category) throws BadConnectionException;
-    Product getProductById(int id) throws BadConnectionException;
-    List<Product> findProducts(String keyWords) throws BadConnectionException;
+    ModelAndView getCategoryProducts(String category);
+    ModelAndView getProductById(int id);
+    ModelAndView findProducts(String keyWords);
+    ModelAndView addProductToCard(int id, Cart cart);
+    ModelAndView getUserOrders(User user);
+    ModelAndView addAddressAndPhoneNumberInfo(String address, String phoneNumber, User userInSession);
 }

@@ -81,7 +81,7 @@ public class ConnectionPool {
     public Connection getConnection() {
         Connection connection = null;
         try {
-            if (pool.isEmpty() && currentConnectionNumber< MAX_CONNECTION_COUNT) {
+            if (pool.isEmpty() && currentConnectionNumber < MAX_CONNECTION_COUNT) {
                 openAdditionalConnection();
             }
             connection = pool.take();

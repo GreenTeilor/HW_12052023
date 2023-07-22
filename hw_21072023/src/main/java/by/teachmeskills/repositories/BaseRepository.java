@@ -8,8 +8,12 @@ import java.util.List;
 
 public interface BaseRepository<T extends BaseEntity> {
     ConnectionPool pool = ConnectionPool.getInstance();
+
     T create(T entity) throws BadConnectionException, UserAlreadyExistsException;
+
     List<T> read() throws BadConnectionException;
+
     T update(T entity) throws BadConnectionException;
+
     void delete(int id) throws BadConnectionException;
 }
