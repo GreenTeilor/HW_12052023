@@ -9,7 +9,7 @@ public interface ProductService extends BaseService<Product>{
     ModelAndView getCategoryProducts(String category);
     ModelAndView getProductById(int id);
     ModelAndView findProducts(String keyWords);
-    ModelAndView addProductToCard(int id, Cart cart);
+    ModelAndView addProductToCart(int id, Cart cart);
     ModelAndView getUserOrders(User user);
     ModelAndView addAddressAndPhoneNumberInfo(String address, String phoneNumber, User userInSession);
 }

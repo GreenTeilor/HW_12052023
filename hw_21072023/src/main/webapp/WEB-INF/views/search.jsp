@@ -55,7 +55,7 @@
                 <c:forEach items="${products}" var="product">
                     <div style="display: inline-block;">
                         <div class="card" style="width: 15rem; margin: 20px; background-color: #dee2e6">
-                            <a href="product?id=${product.getId()}"><img
+                            <a href="products/${product.getId()}"><img
                                     src="${product.getImagePath()}"
                                     class="card-img-top"
                                     style="height: 17rem;"
@@ -64,7 +64,7 @@
                                 <h2 class="card-title" style="font-size: 1rem;">${product.getName()}</h2>
                                 <p class="card-text">Цена: <fmt:formatNumber value="${product.getPrice()}"
                                                                              type="currency"/><br></p>
-                                <a href="product?id=${product.getId()}" class="btn btn-primary">Посмотреть</a>
+                                <a href="products/${product.getId()}" class="btn btn-primary">Посмотреть</a>
                             </div>
                         </div>
                     </div>

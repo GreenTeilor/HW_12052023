@@ -3,7 +3,6 @@ package by.teachmeskills.controllers;
 import by.teachmeskills.constants.PagesPaths;
 import by.teachmeskills.constants.RequestAttributesNames;
 import by.teachmeskills.constants.SessionAttributesNames;
-import by.teachmeskills.entities.Cart;
 import by.teachmeskills.entities.User;
 import by.teachmeskills.services.UserService;
 import by.teachmeskills.services.implementation.UserServiceImplementation;
@@ -35,10 +34,5 @@ public class LoginController {
     @ModelAttribute(RequestAttributesNames.USER)
     public User initializeUserInSession() {
         return new User();
-    }
-
-    @ModelAttribute(RequestAttributesNames.CART)
-    public Cart initializeCartInSession() {
-        return new Cart();
     }
 }

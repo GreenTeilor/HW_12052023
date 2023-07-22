@@ -7,8 +7,8 @@
     <jsp:include page="dependencies.jsp"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="style/product.css" rel="stylesheet">
-    <link href="style/common.css" rel="stylesheet">
+    <link href="<c:url value="/style/product.css"/>" rel="stylesheet">
+    <link href="<c:url value="/style/common.css"/>" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="header.jsp"/>
@@ -21,7 +21,7 @@
             <div class="row">
                 <div class="col-lg-5">
                     <div class="white-box text-left">
-                        <img src="${product.getImagePath()}" class="img-responsive bookImg">
+                        <img src="<c:url value="/${product.getImagePath()}"/>" class="img-responsive bookImg">
                     </div>
                 </div>
                 <div class="col-lg-7 justify-content: right">
@@ -31,7 +31,8 @@
                         <fmt:formatNumber value="${product.getPrice()}"
                                           type="currency"/>
                     </h2>
-                        <form method="POST" action="product">
+                        <form method="POST" action="<c:url value="/cart"/>">
+                            <input hidden name="actionType" id="addProduct" value="addProduct">
                             <input hidden name="productId" id="productId" value="${product.getId()}">
                             <button type="submit" class="btn btn-primary btn-rounded">Купить</button>
                         </form>

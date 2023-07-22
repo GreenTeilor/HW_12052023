@@ -15,7 +15,7 @@
     <c:forEach items="${cart.getProducts()}" var="product">
         <div class="col d-flex justify-content-center">
             <div class="card" style="width: 22rem; margin: 20px; background-color: #dee2e6">
-                <a href="product?id=${product.getId()}"><img src="${product.getImagePath()}"
+                <a href="products/${product.getId()}"><img src="${product.getImagePath()}"
                                                                                class="card-img-top"
                                                                                style="height: 25rem;"
                                                                                alt="..."></a>

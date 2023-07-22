@@ -1,13 +1,15 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <%@ page import="by.teachmeskills.constants.SessionAttributesNames" %>
 <%@ page import="by.teachmeskills.entities.Cart" %>
 <%@ page import="by.teachmeskills.constants.SessionAttributesNames" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <header>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
     <div class="container-fluid">
-      <a class="navbar-brand" href="home">
-        <img src="assets/books.png" width="30" height="30"
+      <a class="navbar-brand" href="<c:url value="/home"/>">
+        <img src="<c:url value="/assets/books.png"/>" width="30" height="30"
              class="d-inline-block align-top" alt="">
         Книжечки
       </a>
@@ -19,23 +21,23 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="home">&#127968 Главная</a>
+            <a class="nav-link" href="<c:url value="/home"/>">&#127968 Главная</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="about">&#10067 Об авторе</a>
+            <a class="nav-link" href="<c:url value="/about"/>">&#10067 Об авторе</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="profile">&#128188 Профиль</a>
+            <a class="nav-link" href="<c:url value="/profile"/>">&#128188 Профиль</a>
           </li>
           <%
             Cart cart = (Cart)request.getSession().getAttribute(SessionAttributesNames.CART);
             String productsInCart = (cart != null && cart.size() != 0) ? String.valueOf(cart.size()) : "";
           %>
           <li class="nav-item">
-            <a class="nav-link" href="cart">&#128465 Корзина<sup style="color: red; font-weight: bold; font-size: 1rem;"><%=productsInCart%></sup></a>
+            <a class="nav-link" href="<c:url value="/cart"/>">&#128465 Корзина<sup style="color: red; font-weight: bold; font-size: 1rem;"><%=productsInCart%></sup></a>
           </li>
           <li>
-            <a class="nav-link" href="search">&#128269 Поиск</a>
+            <a class="nav-link" href="<c:url value="/search"/>">&#128269 Поиск</a>
           </li>
         </ul>
       </div>

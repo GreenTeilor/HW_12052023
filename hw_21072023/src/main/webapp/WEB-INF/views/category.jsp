@@ -7,7 +7,7 @@
     <title>${categoryName}</title>
     <jsp:include page="dependencies.jsp"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="style/common.css" rel="stylesheet">
+    <link href="<c:url value="/style/common.css"/>" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="header.jsp"/>
@@ -15,13 +15,13 @@
     <c:forEach items="${categoryProducts}" var="product">
         <div class="col d-flex justify-content-center">
             <div class="card" style="width: 22rem; margin: 20px; background-color: #dee2e6">
-                <a href="product?id=${product.getId()}"><img src="${product.getImagePath()}" class="card-img-top" style="height: 25rem;" alt="..."></a>
+                <a href="<c:url value="/products/${product.getId()}"/>"><img src="<c:url value="/${product.getImagePath()}"/>" class="card-img-top" style="height: 25rem;" alt="..."></a>
                 <div class="card-body" style="text-align: center">
                     <h2 class="card-title">${product.getName()}</h2>
                     <p class="card-text">Цена: <fmt:formatNumber value="${product.getPrice()}"
                                                                  type="currency"/><br>
                         ${product.getDescription()}</p>
-                    <a href="product?id=${product.getId()}" class="btn btn-primary">Посмотреть</a>
+                    <a href="<c:url value="/products/${product.getId()}"/>" class="btn btn-primary">Посмотреть</a>
                 </div>
             </div>
         </div>

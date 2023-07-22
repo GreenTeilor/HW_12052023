@@ -73,7 +73,7 @@ public class ProductServiceImplementation implements ProductService {
     }
 
     @Override
-    public ModelAndView addProductToCard(int id, Cart cart) {
+    public ModelAndView addProductToCart(int id, Cart cart) {
         try {
             ModelAndView modelAndView = new ModelAndView(PagesPaths.PRODUCT_PAGE);
             Product product = productRepository.getProductById(id);
