@@ -3,6 +3,7 @@ package by.teachmeskills.repositories.implementation;
 import by.teachmeskills.entities.Product;
 import by.teachmeskills.exceptions.BadConnectionException;
 import by.teachmeskills.repositories.ProductRepository;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+@Repository
 public class ProductRepositoryImplementation implements ProductRepository {
     private final static String GET_CATEGORY_PRODUCTS_QUERY = "SELECT * FROM products WHERE category = ?";
     private final static String GET_PRODUCT_BY_ID_QUERY = "SELECT * FROM products WHERE id = ?";

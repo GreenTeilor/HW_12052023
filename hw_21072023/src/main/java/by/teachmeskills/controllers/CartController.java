@@ -31,20 +31,7 @@ public class CartController {
 
     @PostMapping
     public ModelAndView makeOperation(@ModelAttribute(SessionAttributesNames.CART) Cart cart, @RequestParam String actionType, Integer productId) {
-        ModelAndView modelAndView = new ModelAndView(PagesPaths.CART_PAGE);
-        switch (actionType) {
-            case "addProduct" -> {
-                service.addProductToCart(productId, cart);
-                return new ModelAndView("redirect:products/" + productId);
-            }
-            case "removeProduct" -> cart.removeProduct(productId);
-            case "clearCart" -> cart.clear();
-            case "makeOrder" -> {
-            }
-            default -> throw new RuntimeException("Unknown parameter value");
-        }
-        modelAndView.addObject(RequestAttributesNames.PRODUCTS, cart.getProducts());
-        return modelAndView;
+        return service.processCartOperation(cart, actionType, productId);
     }
 
     @ModelAttribute(SessionAttributesNames.CART)

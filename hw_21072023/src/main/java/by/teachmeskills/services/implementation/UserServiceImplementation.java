@@ -11,12 +11,14 @@ import by.teachmeskills.services.UserService;
 import by.teachmeskills.utils.ValidatorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Service
 public class UserServiceImplementation implements UserService {
     UserRepository userRepository = new UserRepositoryImplementation();
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImplementation.class);

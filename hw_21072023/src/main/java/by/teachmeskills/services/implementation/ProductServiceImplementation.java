@@ -19,6 +19,7 @@ import by.teachmeskills.services.ProductService;
 import by.teachmeskills.utils.ValidatorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
@@ -26,6 +27,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class ProductServiceImplementation implements ProductService {
     private final ProductRepository productRepository = new ProductRepositoryImplementation();
     private final UserRepository userRepository = new UserRepositoryImplementation();
@@ -75,11 +77,9 @@ public class ProductServiceImplementation implements ProductService {
     @Override
     public ModelAndView addProductToCart(int id, Cart cart) {
         try {
-            ModelAndView modelAndView = new ModelAndView(PagesPaths.PRODUCT_PAGE);
+            ModelAndView modelAndView = new ModelAndView("redirect:products/" + id);
             Product product = productRepository.getProductById(id);
             cart.addProduct(product);
-            modelAndView.addObject(product.getName());
-            modelAndView.addObject(product);
             return modelAndView;
         } catch (BadConnectionException e) {
             logger.error(e.getMessage());
@@ -95,11 +95,11 @@ public class ProductServiceImplementation implements ProductService {
         return modelAndView;
     }
 
+    @Override
     public ModelAndView getUserOrders(User user) {
         try {
             Statistics statistics = new Statistics(10, 2, 5, "Фантастика");
             List<Product> list1 = new ArrayList<>(List.of(productRepository.getProductById(1), productRepository.getProductById(2), productRepository.getProductById(3)));
-            ;
             List<Product> list2 = new ArrayList<>(List.of(productRepository.getProductById(2), productRepository.getProductById(1)));
             List<Order> orders = new ArrayList<>(List.of(Order.builder().id(1).date(LocalDate.now()).products(list1).userId(2).price(BigDecimal.valueOf(40.0)).build(),
                     Order.builder().id(1).date(LocalDate.now()).products(list2).userId(2).price(BigDecimal.valueOf(50.0)).build()));
@@ -110,6 +110,7 @@ public class ProductServiceImplementation implements ProductService {
         return new ModelAndView(PagesPaths.ERROR_PAGE);
     }
 
+    @Override
     public ModelAndView addAddressAndPhoneNumberInfo(String address, String phoneNumber, User user) {
         try {
             Statistics statistics = new Statistics(10, 2, 5, "Фантастика");
@@ -127,6 +128,23 @@ public class ProductServiceImplementation implements ProductService {
             logger.error(e.getMessage());
             return new ModelAndView(PagesPaths.ERROR_PAGE);
         }
+    }
+
+    @Override
+    public ModelAndView processCartOperation(Cart cart, String actionType, Integer productId) {
+        ModelAndView modelAndView = new ModelAndView(PagesPaths.CART_PAGE);
+        switch (actionType) {
+            case "addProduct" -> {
+                return this.addProductToCart(productId, cart);
+            }
+            case "removeProduct" -> cart.removeProduct(productId);
+            case "clearCart" -> cart.clear();
+            case "makeOrder" -> {
+            }
+            default -> throw new RuntimeException("Unknown parameter value");
+        }
+        modelAndView.addObject(RequestAttributesNames.PRODUCTS, cart.getProducts());
+        return modelAndView;
     }
 
     @Override

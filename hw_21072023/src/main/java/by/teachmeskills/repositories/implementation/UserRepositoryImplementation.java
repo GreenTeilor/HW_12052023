@@ -5,6 +5,7 @@ import by.teachmeskills.exceptions.BadConnectionException;
 import by.teachmeskills.exceptions.UserAlreadyExistsException;
 import by.teachmeskills.repositories.UserRepository;
 import by.teachmeskills.utils.HashUtils;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +16,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class UserRepositoryImplementation implements UserRepository {
     private final static String ADD_USER_QUERY = "INSERT INTO users (name, lastName, email, birthDate, registrationDate, balance, password) VALUES (?, ?, ?, ?, ?, 0.0, ?)";
     private final static String GET_USER_BY_EMAIL = "SELECT * FROM users WHERE email = ?";

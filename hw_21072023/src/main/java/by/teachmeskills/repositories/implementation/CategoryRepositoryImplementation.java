@@ -3,6 +3,7 @@ package by.teachmeskills.repositories.implementation;
 import by.teachmeskills.entities.Category;
 import by.teachmeskills.exceptions.BadConnectionException;
 import by.teachmeskills.repositories.CategoryRepository;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +13,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class CategoryRepositoryImplementation implements CategoryRepository {
     private final static String GET_CATEGORIES_QUERY = "SELECT * FROM categories";
     private final static String ADD_CATEGORY_QUERY = "INSERT INTO categories (name, imagePath) VALUES (?, ?)";

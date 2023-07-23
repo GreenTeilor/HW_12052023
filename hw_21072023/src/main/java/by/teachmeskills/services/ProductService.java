@@ -12,4 +12,5 @@ public interface ProductService extends BaseService<Product>{
     ModelAndView addProductToCart(int id, Cart cart);
     ModelAndView getUserOrders(User user);
     ModelAndView addAddressAndPhoneNumberInfo(String address, String phoneNumber, User userInSession);
+    ModelAndView processCartOperation(Cart cart, String actionType, Integer productId);
 }
