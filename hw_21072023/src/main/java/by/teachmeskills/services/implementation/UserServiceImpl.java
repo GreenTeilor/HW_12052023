@@ -2,24 +2,22 @@ package by.teachmeskills.services.implementation;
 
 import by.teachmeskills.constants.PagesPaths;
 import by.teachmeskills.constants.RequestAttributesNames;
-import by.teachmeskills.entities.Cart;
 import by.teachmeskills.entities.Order;
 import by.teachmeskills.entities.Product;
 import by.teachmeskills.entities.Statistics;
 import by.teachmeskills.entities.User;
 import by.teachmeskills.exceptions.BadConnectionException;
 import by.teachmeskills.exceptions.UserAlreadyExistsException;
-import by.teachmeskills.repositories.CategoryRepository;
 import by.teachmeskills.repositories.ProductRepository;
 import by.teachmeskills.repositories.UserRepository;
-import by.teachmeskills.repositories.implementation.CategoryRepositoryImplementation;
-import by.teachmeskills.repositories.implementation.ProductRepositoryImplementation;
-import by.teachmeskills.repositories.implementation.UserRepositoryImplementation;
-import by.teachmeskills.services.ProductService;
+import by.teachmeskills.repositories.implementation.ProductRepositoryImpl;
+import by.teachmeskills.repositories.implementation.UserRepositoryImpl;
+import by.teachmeskills.services.UserService;
 import by.teachmeskills.utils.ValidatorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
@@ -28,19 +26,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ProductServiceImplementation implements ProductService {
-    private final ProductRepository productRepository = new ProductRepositoryImplementation();
-    private final UserRepository userRepository = new UserRepositoryImplementation();
-    private final CategoryRepository categoryRepository = new CategoryRepositoryImplementation();
-    private static final Logger logger = LoggerFactory.getLogger(ProductServiceImplementation.class);
+public class UserServiceImpl implements UserService {
+    UserRepository userRepository = new UserRepositoryImpl();
+    ProductRepository productRepository = new ProductRepositoryImpl();
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
-    public ModelAndView getCategoryProducts(String category) {
+    public User getUserByEmail(String email) throws BadConnectionException {
+        return userRepository.getUserByEmail(email);
+    }
+
+    @Override
+    public User getUserById(int id) throws BadConnectionException {
+        return userRepository.getUserById(id);
+    }
+
+    @Override
+    public ModelAndView getUser(String email, String password, Model model) {
         try {
-            ModelAndView modelAndView = new ModelAndView(PagesPaths.CATEGORY_PAGE);
-            List<Product> products = productRepository.getCategoryProducts(category);
-            modelAndView.addObject(RequestAttributesNames.CATEGORY_PRODUCTS, products);
-            return modelAndView;
+            ModelAndView modelAndView = new ModelAndView(PagesPaths.LOGIN_PAGE);
+            User authenticatedUser = userRepository.getUser(email, password);
+            if (authenticatedUser != null) {
+                model.addAttribute(RequestAttributesNames.USER, authenticatedUser);
+                return new ModelAndView("redirect:" + PagesPaths.HOME_PAGE);
+            } else {
+                modelAndView.addObject(RequestAttributesNames.STATUS, "Неверный логин или пароль");
+                return modelAndView;
+            }
         } catch (BadConnectionException e) {
             logger.error(e.getMessage());
         }
@@ -48,43 +60,8 @@ public class ProductServiceImplementation implements ProductService {
     }
 
     @Override
-    public ModelAndView getProductById(int id) {
-        try {
-            ModelAndView modelAndView = new ModelAndView(PagesPaths.PRODUCT_PAGE);
-            Product product = productRepository.getProductById(id);
-            modelAndView.addObject(product.getName());
-            modelAndView.addObject(product);
-            return modelAndView;
-        } catch (BadConnectionException e) {
-            logger.error(e.getMessage());
-        }
-        return new ModelAndView(PagesPaths.ERROR_PAGE);
-    }
-
-    @Override
-    public ModelAndView findProducts(String keyWords) {
-        try {
-            ModelAndView modelAndView = new ModelAndView(PagesPaths.SEARCH_PAGE);
-            modelAndView.addObject(RequestAttributesNames.PRODUCTS, productRepository.findProducts(keyWords));
-            modelAndView.addObject(RequestAttributesNames.CATEGORIES, categoryRepository.read());
-            return modelAndView;
-        } catch (BadConnectionException e) {
-            logger.error(e.getMessage());
-        }
-        return new ModelAndView(PagesPaths.ERROR_PAGE);
-    }
-
-    @Override
-    public ModelAndView addProductToCart(int id, Cart cart) {
-        try {
-            ModelAndView modelAndView = new ModelAndView("redirect:products/" + id);
-            Product product = productRepository.getProductById(id);
-            cart.addProduct(product);
-            return modelAndView;
-        } catch (BadConnectionException e) {
-            logger.error(e.getMessage());
-        }
-        return new ModelAndView(PagesPaths.ERROR_PAGE);
+    public void updateAddressAndPhoneNumber(String address, String phoneNumber, String email) throws BadConnectionException {
+        userRepository.updateAddressAndPhoneNumber(address, phoneNumber, email);
     }
 
     public static ModelAndView makeModelAndView(User user, Statistics statistics, List<Order> orders) {
@@ -131,41 +108,36 @@ public class ProductServiceImplementation implements ProductService {
     }
 
     @Override
-    public ModelAndView processCartOperation(Cart cart, String actionType, Integer productId) {
-        ModelAndView modelAndView = new ModelAndView(PagesPaths.CART_PAGE);
-        switch (actionType) {
-            case "addProduct" -> {
-                return this.addProductToCart(productId, cart);
+    public ModelAndView create(User user) {
+        ModelAndView modelAndView = new ModelAndView(PagesPaths.REGISTER_PAGE);
+        ValidatorUtils.Status status = ValidatorUtils.validateForm(user.getName(), user.getLastName(),
+                user.getEmail(), user.getBirthDate(), user.getPassword());
+        if (status == ValidatorUtils.Status.VALID) {
+            try {
+                user.setBalance(BigDecimal.valueOf(0.0));
+                user.setRegistrationDate(LocalDate.now());
+                userRepository.create(user);
+                modelAndView.addObject(RequestAttributesNames.STATUS, status.toString());
+                modelAndView.addObject(RequestAttributesNames.COLOR, "green");
+            } catch (BadConnectionException e) {
+                logger.error(e.getMessage());
+                return new ModelAndView(PagesPaths.ERROR_PAGE);
+            } catch (UserAlreadyExistsException e) {
+                modelAndView.addObject(RequestAttributesNames.STATUS, e.getMessage());
+                modelAndView.addObject(RequestAttributesNames.COLOR, "red");
             }
-            case "removeProduct" -> cart.removeProduct(productId);
-            case "clearCart" -> cart.clear();
-            case "makeOrder" -> {
-            }
-            default -> throw new RuntimeException("Unknown parameter value");
+        } else {
+            modelAndView.addObject(RequestAttributesNames.STATUS, status.toString());
+            modelAndView.addObject(RequestAttributesNames.COLOR, "red");
         }
-        modelAndView.addObject(RequestAttributesNames.PRODUCTS, cart.getProducts());
         return modelAndView;
-    }
-
-    @Override
-    public ModelAndView create(Product product) {
-        try {
-            ModelAndView modelAndView = new ModelAndView(PagesPaths.PRODUCT_PAGE);
-            productRepository.create(product);
-            return modelAndView;
-        } catch (BadConnectionException | UserAlreadyExistsException e) {
-            logger.error(e.getMessage());
-        }
-        return new ModelAndView(PagesPaths.ERROR_PAGE);
     }
 
     @Override
     public ModelAndView read() {
         try {
-            ModelAndView modelAndView = new ModelAndView(PagesPaths.SEARCH_PAGE);
-            modelAndView.addObject(RequestAttributesNames.PRODUCTS, productRepository.read());
-            modelAndView.addObject(RequestAttributesNames.CATEGORIES, categoryRepository.read());
-            return modelAndView;
+            ModelAndView modelAndView = new ModelAndView(PagesPaths.HOME_PAGE);
+            modelAndView.addObject(RequestAttributesNames.USER, userRepository.read());
         } catch (BadConnectionException e) {
             logger.error(e.getMessage());
         }
@@ -173,12 +145,12 @@ public class ProductServiceImplementation implements ProductService {
     }
 
     @Override
-    public Product update(Product product) throws BadConnectionException {
-        return productRepository.update(product);
+    public User update(User user) throws BadConnectionException {
+        return userRepository.update(user);
     }
 
     @Override
     public void delete(int id) throws BadConnectionException {
-        productRepository.delete(id);
+        userRepository.delete(id);
     }
 }

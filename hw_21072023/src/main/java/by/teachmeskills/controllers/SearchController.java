@@ -1,7 +1,7 @@
 package by.teachmeskills.controllers;
 
 import by.teachmeskills.services.ProductService;
-import by.teachmeskills.services.implementation.ProductServiceImplementation;
+import by.teachmeskills.services.implementation.ProductServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("search")
 public class SearchController {
-    private static final ProductService productService = new ProductServiceImplementation();
+    private static final ProductService productService = new ProductServiceImpl();
 
     @GetMapping
     public ModelAndView openSearchPage() {

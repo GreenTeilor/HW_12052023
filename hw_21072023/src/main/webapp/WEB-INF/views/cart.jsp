@@ -7,7 +7,7 @@
     <title>Корзина</title>
     <jsp:include page="dependencies.jsp"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="style/common.css" rel="stylesheet">
+    <link href="<c:url value="/style/common.css"/>" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="header.jsp"/>
@@ -15,33 +15,23 @@
     <c:forEach items="${cart.getProducts()}" var="product">
         <div class="col d-flex justify-content-center">
             <div class="card" style="width: 22rem; margin: 20px; background-color: #dee2e6">
-                <a href="products/${product.getId()}"><img src="${product.getImagePath()}"
-                                                                               class="card-img-top"
-                                                                               style="height: 25rem;"
-                                                                               alt="..."></a>
+                <a href="<c:url value="/products/${product.getId()}"/>"><img src="<c:url value="/${product.getImagePath()}"/>"
+                                                           class="card-img-top"
+                                                           style="height: 25rem;"
+                                                           alt="..."></a>
                 <div class="card-body" style="text-align: center">
                     <h2 class="card-title">${product.getName()}</h2>
                     <p class="card-text">Цена: <fmt:formatNumber value="${product.getPrice()}"
                                                                  type="currency"/><br></p>
-                    <form method="POST" action="cart">
-                        <input hidden name="actionType" id="removeProduct" value="removeProduct">
-                        <input hidden name="productId" id="productId" value="${product.getId()}">
-                        <button type="submit" class="btn btn-primary btn-rounded">Удалить</button>
-                    </form>
+                    <a href="<c:url value="/cart/removeProduct/${product.getId()}"/>" class="btn btn-primary btn-rounded">Удалить</a>
                 </div>
             </div>
         </div>
     </c:forEach>
 </div>
-<div style="text-align: center">
-<form method="POST" action="cart" style="display: inline-block">
-    <input hidden name="actionType" id="makeOrder" value="makeOrder">
-    <button type="submit" class="btn btn-primary btn-rounded" style="font-size: 1.5rem; margin: 10px">Оформить заказ</button>
-</form>
-<form method="POST" action="cart" style="display: inline-block">
-    <input hidden name="actionType" id="clearCart" value="clearCart">
-    <button type="submit" class="btn btn-primary btn-rounded" style="font-size: 1.5rem; margin: 10px">Очистить</button>
-</form>
-</div>
+<p style="text-align: center">
+    <a href="<c:url value="/cart/makeOrder"/>" class="btn btn-primary btn-rounded" style="font-size: 1.5rem; margin: 10px">Оформить заказ</a>
+    <a href="<c:url value="/cart/clear"/>" class="btn btn-primary btn-rounded" style="font-size: 1.5rem; margin: 10px">Очистить</a>
+</p>
 </body>
 </html>

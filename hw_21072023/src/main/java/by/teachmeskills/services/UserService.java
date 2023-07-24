@@ -10,4 +10,6 @@ public interface UserService extends BaseService<User>{
     User getUserById(int id) throws BadConnectionException;
     ModelAndView getUser(String email, String password, Model model);
     void updateAddressAndPhoneNumber(String address, String phoneNumber, String email) throws BadConnectionException;
+    ModelAndView getUserOrders(User user);
+    ModelAndView addAddressAndPhoneNumberInfo(String address, String phoneNumber, User userInSession);
 }

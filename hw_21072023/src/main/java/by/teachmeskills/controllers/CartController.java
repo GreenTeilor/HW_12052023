@@ -5,13 +5,12 @@ import by.teachmeskills.constants.RequestAttributesNames;
 import by.teachmeskills.constants.SessionAttributesNames;
 import by.teachmeskills.entities.Cart;
 import by.teachmeskills.services.ProductService;
-import by.teachmeskills.services.implementation.ProductServiceImplementation;
+import by.teachmeskills.services.implementation.ProductServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 @SessionAttributes(SessionAttributesNames.CART)
 public class CartController {
 
-    private static final ProductService service = new ProductServiceImplementation();
+    private static final ProductService service = new ProductServiceImpl();
 
     @GetMapping
     public ModelAndView openCartPage(@ModelAttribute(SessionAttributesNames.CART) Cart cart) {
@@ -29,10 +28,33 @@ public class CartController {
         return new ModelAndView(PagesPaths.CART_PAGE);
     }
 
-    @PostMapping
-    public ModelAndView makeOperation(@ModelAttribute(SessionAttributesNames.CART) Cart cart, @RequestParam String actionType, Integer productId) {
-        return service.processCartOperation(cart, actionType, productId);
+    @GetMapping("addProduct/{id}")
+    public ModelAndView addProduct(@PathVariable int id, @ModelAttribute(SessionAttributesNames.CART) Cart cart) {
+        return service.addProductToCart(id, cart);
     }
+
+    @GetMapping("removeProduct/{id}")
+    public ModelAndView removeProduct(@PathVariable int id, @ModelAttribute(SessionAttributesNames.CART) Cart cart) {
+        ModelAndView modelAndView = new ModelAndView(PagesPaths.CART_PAGE);
+        cart.removeProduct(id);
+        modelAndView.addObject(RequestAttributesNames.CART, cart);
+        return modelAndView;
+    }
+
+    @GetMapping("clear")
+    public ModelAndView clearCart(@ModelAttribute(SessionAttributesNames.CART) Cart cart) {
+        ModelAndView modelAndView = new ModelAndView(PagesPaths.CART_PAGE);
+        cart.clear();
+        modelAndView.addObject(RequestAttributesNames.CART, cart);
+        return modelAndView;
+    }
+
+
+    @GetMapping("makeOrder")
+    public ModelAndView makeOrder() {
+        return new ModelAndView(PagesPaths.CART_PAGE);
+    }
+
 
     @ModelAttribute(SessionAttributesNames.CART)
     public Cart initializeCartInSession() {

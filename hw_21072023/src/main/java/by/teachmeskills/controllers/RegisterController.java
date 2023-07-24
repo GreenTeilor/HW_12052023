@@ -4,7 +4,7 @@ import by.teachmeskills.constants.PagesPaths;
 import by.teachmeskills.constants.RequestAttributesNames;
 import by.teachmeskills.entities.User;
 import by.teachmeskills.services.UserService;
-import by.teachmeskills.services.implementation.UserServiceImplementation;
+import by.teachmeskills.services.implementation.UserServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("register")
 public class RegisterController {
 
-    private static final UserService service = new UserServiceImplementation();
+    private static final UserService service = new UserServiceImpl();
 
     @GetMapping
     public ModelAndView openRegisterPage() {

@@ -4,7 +4,7 @@ import by.teachmeskills.constants.PagesPaths;
 import by.teachmeskills.constants.RequestAttributesNames;
 import by.teachmeskills.entities.Category;
 import by.teachmeskills.exceptions.BadConnectionException;
-import by.teachmeskills.repositories.implementation.CategoryRepositoryImplementation;
+import by.teachmeskills.repositories.implementation.CategoryRepositoryImpl;
 import by.teachmeskills.services.CategoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 @Service
-public class CategoryServiceImplementation implements CategoryService {
-    private final CategoryRepositoryImplementation categoryRepository = new CategoryRepositoryImplementation();
-    private static final Logger logger = LoggerFactory.getLogger(CategoryServiceImplementation.class);
+public class CategoryServiceImpl implements CategoryService {
+    private final CategoryRepositoryImpl categoryRepository = new CategoryRepositoryImpl();
+    private static final Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
     @Override
     public ModelAndView create(Category category) {

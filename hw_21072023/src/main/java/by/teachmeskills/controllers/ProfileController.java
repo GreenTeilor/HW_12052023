@@ -2,8 +2,8 @@ package by.teachmeskills.controllers;
 
 import by.teachmeskills.constants.SessionAttributesNames;
 import by.teachmeskills.entities.User;
-import by.teachmeskills.services.ProductService;
-import by.teachmeskills.services.implementation.ProductServiceImplementation;
+import by.teachmeskills.services.UserService;
+import by.teachmeskills.services.implementation.UserServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,16 +16,16 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("profile")
 public class ProfileController {
 
-    private static final ProductService productService = new ProductServiceImplementation();
+    private static final UserService userService = new UserServiceImpl();
 
     @GetMapping
     public ModelAndView openProfilePage(@SessionAttribute(SessionAttributesNames.USER) User user) {
-        return productService.getUserOrders(user);
+        return userService.getUserOrders(user);
     }
 
     @PostMapping
     public ModelAndView addAddressAndPhoneNumberInfo(@ModelAttribute(SessionAttributesNames.USER) User user, @SessionAttribute(SessionAttributesNames.USER) User userInSession) {
-        return productService.addAddressAndPhoneNumberInfo(user.getAddress(), user.getPhoneNumber(), userInSession);
+        return userService.addAddressAndPhoneNumberInfo(user.getAddress(), user.getPhoneNumber(), userInSession);
     }
 
 }

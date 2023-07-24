@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class UserRepositoryImplementation implements UserRepository {
+public class UserRepositoryImpl implements UserRepository {
     private final static String ADD_USER_QUERY = "INSERT INTO users (name, lastName, email, birthDate, registrationDate, balance, password) VALUES (?, ?, ?, ?, ?, 0.0, ?)";
     private final static String GET_USER_BY_EMAIL = "SELECT * FROM users WHERE email = ?";
     private final static String DELETE_USER_BY_ID = "DELETE FROM users WHERE id = ?";

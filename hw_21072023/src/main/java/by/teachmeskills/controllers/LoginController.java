@@ -5,7 +5,7 @@ import by.teachmeskills.constants.RequestAttributesNames;
 import by.teachmeskills.constants.SessionAttributesNames;
 import by.teachmeskills.entities.User;
 import by.teachmeskills.services.UserService;
-import by.teachmeskills.services.implementation.UserServiceImplementation;
+import by.teachmeskills.services.implementation.UserServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("login")
 @SessionAttributes({SessionAttributesNames.USER, SessionAttributesNames.CART})
 public class LoginController {
-    private static final UserService userService = new UserServiceImplementation();
+    private static final UserService userService = new UserServiceImpl();
 
     @GetMapping
     public ModelAndView openLoginPage() {

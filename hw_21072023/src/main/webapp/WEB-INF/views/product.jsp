@@ -31,11 +31,7 @@
                         <fmt:formatNumber value="${product.getPrice()}"
                                           type="currency"/>
                     </h2>
-                        <form method="POST" action="<c:url value="/cart"/>">
-                            <input hidden name="actionType" id="addProduct" value="addProduct">
-                            <input hidden name="productId" id="productId" value="${product.getId()}">
-                            <button type="submit" class="btn btn-primary btn-rounded">Купить</button>
-                        </form>
+                    <a href="<c:url value="/cart/addProduct/${product.getId()}"/>" class="btn btn-primary btn-rounded">Купить</a>
 
                     <h3 class="box-title mt-5">Почему мы?</h3>
                     <ul class="list-unstyled">

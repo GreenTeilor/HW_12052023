@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class CategoryRepositoryImplementation implements CategoryRepository {
+public class CategoryRepositoryImpl implements CategoryRepository {
     private final static String GET_CATEGORIES_QUERY = "SELECT * FROM categories";
     private final static String ADD_CATEGORY_QUERY = "INSERT INTO categories (name, imagePath) VALUES (?, ?)";
     private final static String GET_CATEGORY_BY_ID_QUERY = "SELECT * FROM categories WHERE id = ?";
